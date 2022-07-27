@@ -1,0 +1,26 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "صفحه نخست";
+}
+
+<div class="text-center">
+    <h1 class="display-4">خوش آمدید</h1>
+<br />
+<br />
+<br />
+
+    <p> <a href="../Adminpanel/">
+            <button type="button" class="btn btn-warning">سیستم مدیریت کتابخانه</button>
+        </a>
+    </p>
+</div>
+<br />
+<br />
+<br />
+<br />
+<div class="text-center">
+    <a href="/Adminpanel/Library/Categories"><button type="button" class="btn btn-primary">دسته بندی کتاب ها</button></a>
+    <a href="../Adminpanel/Library/Tasks"><button type="button" class="btn btn-info">مدیریت کتابها</button></a>
+    <a href="./Adminpanel/Lend"><button type="button" class="btn btn-success">سیستم امانت دهی کتاب</button></a>
+</div>
