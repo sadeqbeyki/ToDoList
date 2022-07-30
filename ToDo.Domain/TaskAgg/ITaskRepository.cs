@@ -7,7 +7,7 @@ namespace ToDo.Domain.TaskAgg
     public interface ITaskRepository : IRepository<long, Task>
     {
         EditTask GetDetails(long id);
-        Task GetBookWithCategory(long id);
+        Task GetTaskWithCategory(long id);
         List<TaskViewModel> Search(TaskSearchModel searchModel);
         List<TaskViewModel> GetTasks();
     }

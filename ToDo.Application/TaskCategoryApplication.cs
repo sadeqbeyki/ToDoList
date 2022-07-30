@@ -41,7 +41,7 @@ namespace ToDo.Application
             return operation.Succeeded();
         }
 
-        public List<TaskCategorySearchModel> GetTaskCategories()
+        public List<TaskCategoryViewModel> GetTaskCategories()
         {
             return _taskCategoryRepository.GetTaskCategories();
         }
@@ -51,10 +51,10 @@ namespace ToDo.Application
             return _taskCategoryRepository.GetDetails(id);
         }
 
-        public List<TaskCategorySearchModel> Search(TaskCategorySearchModel searchModel)
+
+        public List<TaskCategoryViewModel> Search(TaskCategorySearchModel searchModel)
         {
             return _taskCategoryRepository.Search(searchModel);
         }
-
     }
 }

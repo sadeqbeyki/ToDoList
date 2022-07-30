@@ -1,5 +1,5 @@
 /*!
- * jQuery JavaScript Library v3.5.1
+ * jQuery JavaScript ToDo v3.5.1
  * https://jquery.com/
  *
  * Includes Sizzle.js

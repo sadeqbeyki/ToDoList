@@ -1,14 +1,14 @@
-using Task.Application.Contracts.TaskCategory;
+using ToDo.Application.Contracts.TaskCategory;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Collections.Generic;
 
-namespace ServiceHost.Areas.Adminpanel.Pages.Library.Categories
+namespace ServiceHost.Areas.Adminpanel.Pages.ToDo.Categories
 {
     public class IndexModel : PageModel
     {
         public TaskCategorySearchModel SearchModel;
-        public List<TaskCategorySearchModel> TaskCategories;
+        public List<TaskCategoryViewModel> TaskCategories;
         private readonly ITaskCategoryApplication _taskCategoryApplication;
 
         public IndexModel(ITaskCategoryApplication taskCategoryApplication)
@@ -33,8 +33,8 @@ namespace ServiceHost.Areas.Adminpanel.Pages.Library.Categories
 
         public PartialViewResult OnGetEdit(long id)
         {
-            var bookCategory = _taskCategoryApplication.GetDetails(id);
-            return Partial("Edit", bookCategory);
+            var taskCategory = _taskCategoryApplication.GetDetails(id);
+            return Partial("Edit", taskCategory);
         }
         public IActionResult OnPostEdit(EditTaskCategory command)
         {

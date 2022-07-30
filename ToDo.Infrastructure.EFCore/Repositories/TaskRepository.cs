@@ -12,9 +12,9 @@ namespace ToDo.Infrastructure.EFCore.Repositories
     {
         private readonly ToDoContext _taskContext;
 
-        public TaskRepository(ToDoContext libraryContext) : base(libraryContext)
+        public TaskRepository(ToDoContext taskContext) : base(taskContext)
         {
-            _taskContext = libraryContext;
+            _taskContext = taskContext;
         }
 
         public List<TaskViewModel> GetTasks()
@@ -76,5 +76,6 @@ namespace ToDo.Infrastructure.EFCore.Repositories
 
             return query.OrderByDescending(x => x.Id).ToList();
         }
+
     }
 }

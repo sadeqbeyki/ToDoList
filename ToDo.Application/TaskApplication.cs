@@ -29,7 +29,7 @@ namespace ToDo.Application
         public OperationResult Edit(EditTask command)
         {
             var operation = new OperationResult();
-            var task = _taskRepository.GetBookWithCategory(command.Id);
+            var task = _taskRepository.GetTaskWithCategory(command.Id);
             if (task == null)
                 return operation.Failed(ApplicationMessages.RecordNotFound);
 

@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 
-namespace AppQuery.Contracts.BookCategory
+namespace AppQuery.Contracts.TaskCategory
 {
     public interface ITaskCategoryQuery
     {
-        List<TaskCategoryQueryModel> GetBookCategories();
-        List<TaskCategoryQueryModel> GetBookCategoriesWithBooks();
+        List<TaskCategoryQueryModel> GetTaskCategories();
+        List<TaskCategoryQueryModel> GetTaskCategoriesWithTasks();
     }
 }

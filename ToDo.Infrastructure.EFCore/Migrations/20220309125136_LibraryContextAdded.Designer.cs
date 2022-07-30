@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ToDo.Infrastructure.EFCore;
 
-namespace Library.Infrastructure.EFCore.Migrations
+namespace ToDo.Infrastructure.EFCore.Migrations
 {
     [DbContext(typeof(ToDoContext))]
     [Migration("20220309125136_LibraryContextAdded")]
@@ -21,7 +21,7 @@ namespace Library.Infrastructure.EFCore.Migrations
                 .HasAnnotation("ProductVersion", "5.0.15")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Library.Domain.BookAgg.Task", b =>
+            modelBuilder.Entity("ToDo.Domain.BookAgg.Task", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -55,7 +55,7 @@ namespace Library.Infrastructure.EFCore.Migrations
                     b.ToTable("books");
                 });
 
-            modelBuilder.Entity("Library.Domain.BookCategoryAgg.BookCategory", b =>
+            modelBuilder.Entity("ToDo.Domain.BookCategoryAgg.BookCategory", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -79,9 +79,9 @@ namespace Library.Infrastructure.EFCore.Migrations
                     b.ToTable("TaskViewModel");
                 });
 
-            modelBuilder.Entity("Library.Domain.BookAgg.Task", b =>
+            modelBuilder.Entity("ToDo.Domain.BookAgg.Task", b =>
                 {
-                    b.HasOne("Library.Domain.BookCategoryAgg.BookCategory", "Category")
+                    b.HasOne("ToDo.Domain.BookCategoryAgg.BookCategory", "Category")
                         .WithMany("Tasks")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -90,7 +90,7 @@ namespace Library.Infrastructure.EFCore.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("Library.Domain.BookCategoryAgg.BookCategory", b =>
+            modelBuilder.Entity("ToDo.Domain.BookCategoryAgg.BookCategory", b =>
                 {
                     b.Navigation("Tasks");
                 });

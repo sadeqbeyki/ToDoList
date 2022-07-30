@@ -12,13 +12,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Library.Application.Contracts\Library.Application.Contracts.csproj" />
-    <ProjectReference Include="..\Library.Application\Library.Application.csproj" />
-    <ProjectReference Include="..\Library.Infrastructure.Configuration\Library.Infrastructure.Configuration.csproj" />
-    <ProjectReference Include="..\Library.Infrastructure.EFCore\Library.Infrastructure.EFCore.csproj" />
-    <ProjectReference Include="..\Task.Application.Contracts\ToDo.Application.Contracts.csproj" />
-    <ProjectReference Include="..\Task.Infrastructure.Configuration\ToDo.Infrastructure.Configuration.csproj" />
-    <ProjectReference Include="..\ToDo.Application.Contracts\ToDo.Application.Contracts.csproj" />
+
+    <ProjectReference Include="..\ToDo.Application\ToDo.Application.csproj" />
+    <ProjectReference Include="..\ToDo.Infrastructure.Configuration\ToDo.Infrastructure.Configuration.csproj" />
+    <ProjectReference Include="..\ToDo.Infrastructure.EFCore\ToDo.Infrastructure.EFCore.csproj" />
+
+
   </ItemGroup>
 
   <ItemGroup>

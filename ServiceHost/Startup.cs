@@ -1,4 +1,4 @@
-using Task.Infrastructure.Configuration;
+using ToDo.Infrastructure.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -20,8 +20,8 @@ namespace ServiceHost
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var connectionString = Configuration.GetConnectionString("LibraryDB");
-            TaskBootstrapper.Configure(services, connectionString);
+            var connectionString = Configuration.GetConnectionString("ToDoListDB");
+            ToDoBootstrapper.Configure(services, connectionString);
             services.AddRazorPages();
         }
 

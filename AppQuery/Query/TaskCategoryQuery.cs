@@ -1,7 +1,7 @@
 ﻿using AppQuery.Contracts.Task;
-using AppQuery.Contracts.BookCategory;
-using Library.Domain.BookAgg;
-using Library.Infrastructure.EFCore;
+using AppQuery.Contracts.TaskCategory;
+using ToDo.Domain.TaskAgg;
+using ToDo.Infrastructure.EFCore;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,34 +10,34 @@ namespace AppQuery.Query
 {
     public class TaskCategoryQuery : ITaskCategoryQuery
     {
-        private readonly LibraryContext _libraryContext;
+        private readonly ToDoContext _todoContext;
 
-        public TaskCategoryQuery(LibraryContext libraryContext)
+        public TaskCategoryQuery(ToDoContext todoContext)
         {
-            _libraryContext = libraryContext;
+            _todoContext = todoContext;
         }
 
         public List<TaskCategoryQueryModel> GetTaskCategories()
         {
-            return _libraryContext.TaskViewModel.Select(x => new TaskCategoryQueryModel
+            return _todoContext.TaskViewModel.Select(x => new TaskCategoryQueryModel
             {
                 Id = x.Id,
                 Name = x.Name
             }).ToList();
         }
 
-        public List<TaskCategoryQueryModel> GetBookCategoriesWithBooks()
+        public List<TaskCategoryQueryModel> GetTaskCategoriesWithTasks()
         {
-            var categories = _libraryContext.TaskViewModel.Include(x => x.Tasks).ThenInclude(x => x.Category)
+            var categories = _todoContext.TaskViewModel.Include(x => x.Tasks).ThenInclude(x => x.Category)
                 .Select(x => new TaskCategoryQueryModel
                 {
                     Id=x.Id,
                     Name=x.Name,
-                    Tasks=MapBooks(x.Tasks)
+                    Tasks=MapTasks(x.Tasks)
                 }).OrderByDescending(x => x.Id).ToList();
             return categories;
         }
-        private static List<TaskQueryModel> MapBooks(List<Task> products)
+        private static List<TaskQueryModel> MapTasks(List<Task> products)
         {
             return products.Select(p => new TaskQueryModel
             {

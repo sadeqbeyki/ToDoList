@@ -17,9 +17,9 @@ namespace ToDo.Infrastructure.EFCore.Repositories
             _todoContext = todoContext;
         }
 
-        public List<TaskCategorySearchModel> GetTaskCategories()
+        public List<TaskCategoryViewModel> GetTaskCategories()
         {
-            return _todoContext.TaskViewModel.Select(x => new TaskCategorySearchModel
+            return _todoContext.TaskViewModel.Select(x => new TaskCategoryViewModel
             {
                 Id = x.Id,
                 Name = x.Name,
@@ -37,9 +37,9 @@ namespace ToDo.Infrastructure.EFCore.Repositories
             }).FirstOrDefault(x => x.Id == id);
         }
 
-        public List<TaskCategorySearchModel> Search(TaskCategorySearchModel searchModel)
+        public List<TaskCategoryViewModel> Search(TaskCategorySearchModel searchModel)
         {
-            var query = _todoContext.TaskViewModel.Select(x => new TaskCategorySearchModel
+            var query = _todoContext.TaskViewModel.Select(x => new TaskCategoryViewModel
             {
                 Id = x.Id,
                 Name = x.Name,

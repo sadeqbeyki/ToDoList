@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Library.Infrastructure.EFCore.Migrations
+namespace ToDo.Infrastructure.EFCore.Migrations
 {
     public partial class LibraryContextAdded : Migration
     {

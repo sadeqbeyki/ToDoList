@@ -7,7 +7,7 @@ namespace ToDo.Domain.TaskCategoryAgg
     public interface ITaskCategoryRepository : IRepository<long, TaskCategory>
     {
         EditTaskCategory GetDetails(long id);
-        List<TaskCategorySearchModel> GetTaskCategories();
-        List<TaskCategorySearchModel> Search(TaskCategorySearchModel searchModel);
+        List<TaskCategoryViewModel> GetTaskCategories();
+        List<TaskCategoryViewModel> Search(TaskCategorySearchModel searchModel);
     }
 }
