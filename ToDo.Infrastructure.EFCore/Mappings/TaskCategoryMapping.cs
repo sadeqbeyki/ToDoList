@@ -8,7 +8,7 @@ namespace ToDo.Infrastructure.EFCore.Mappings
     {
         public void Configure(EntityTypeBuilder<TaskCategory> builder)
         {
-            builder.ToTable("TaskViewModel");
+            builder.ToTable("Tasks");
             builder.HasKey(x => x.Id);
 
             builder.Property(x => x.Name).HasMaxLength(50).IsRequired();

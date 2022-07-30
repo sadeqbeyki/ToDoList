@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Task.Infrastructure.EFCore\ToDo.Infrastructure.EFCore.csproj" />
     <ProjectReference Include="..\ToDo.Domain\ToDo.Domain.csproj" />
     <ProjectReference Include="..\ToDo.Infrastructure.EFCore\ToDo.Infrastructure.EFCore.csproj" />
   </ItemGroup>
