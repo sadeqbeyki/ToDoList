@@ -20,7 +20,7 @@ namespace ToDo.Application
             if (_taskRepository.Exists(x => x.Name == command.Name))
                 return operation.Failed(ApplicationMessages.DuplicatedRecord);
 
-            var task = new Task(command.Code, command.Name, command.Author, command.Publisher, command.Translator, command.Description, command.CategoryId);
+            var task = new TaskItem(command.Code, command.Name, command.Author, command.Publisher, command.Translator, command.Description, command.CategoryId);
             _taskRepository.Create(task);
             _taskRepository.SaveChanges();
             return operation.Succeeded();

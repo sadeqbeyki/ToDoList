@@ -8,7 +8,7 @@ using ToDo.Domain.TaskAgg;
 
 namespace ToDo.Infrastructure.EFCore.Repositories
 {
-    public class TaskRepository : RepositoryBase<long, Task>, ITaskRepository
+    public class TaskRepository : RepositoryBase<long, TaskItem>, ITaskRepository
     {
         private readonly ToDoContext _taskContext;
 
@@ -30,7 +30,7 @@ namespace ToDo.Infrastructure.EFCore.Repositories
             }).ToList();
         }
 
-        public Task GetTaskWithCategory(long id)
+        public TaskItem GetTaskWithCategory(long id)
         {
             return _taskContext.Tasks.Include(x => x.Category).FirstOrDefault(x => x.Id == id);
         }

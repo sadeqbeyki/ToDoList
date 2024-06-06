@@ -37,7 +37,7 @@ namespace AppQuery.Query
                 }).OrderByDescending(x => x.Id).ToList();
             return categories;
         }
-        private static List<TaskQueryModel> MapTasks(List<Task> products)
+        private static List<TaskQueryModel> MapTasks(List<TaskItem> products)
         {
             return products.Select(p => new TaskQueryModel
             {

@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using ToDo.Application.Contracts.Task;
 
-namespace ToDo.Domain.TaskAgg
+namespace ToDo.Domain.TaskAgg;
+
+public interface ITaskRepository : IRepository<long, TaskItem>
 {
-    public interface ITaskRepository : IRepository<long, Task>
-    {
-        EditTask GetDetails(long id);
-        Task GetTaskWithCategory(long id);
-        List<TaskViewModel> Search(TaskSearchModel searchModel);
-        List<TaskViewModel> GetTasks();
-    }
+    EditTask GetDetails(long id);
+    TaskItem GetTaskWithCategory(long id);
+    List<TaskViewModel> Search(TaskSearchModel searchModel);
+    List<TaskViewModel> GetTasks();
 }

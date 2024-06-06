@@ -8,11 +8,11 @@ namespace ToDo.Domain.TaskCategoryAgg
     {
         public string Name { get; private set; }
         public string Description { get; private set; }
-        public List<Task> Tasks { get; set; }
+        public List<TaskItem> Tasks { get; set; }
 
         public TaskCategory()
         {
-            Tasks = new List<Task>();
+            Tasks = new List<TaskItem>();
         }
 
         public TaskCategory(string name, string description)

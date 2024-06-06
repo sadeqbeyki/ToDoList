@@ -8,7 +8,7 @@ namespace ToDo.Infrastructure.EFCore
     public class ToDoContext : DbContext
     {
         public DbSet<TaskCategory> TaskViewModel { get; set; }
-        public DbSet<Task> Tasks { get; set; }
+        public DbSet<TaskItem> Tasks { get; set; }
         public ToDoContext(DbContextOptions<ToDoContext> options) : base(options)
         {
 
