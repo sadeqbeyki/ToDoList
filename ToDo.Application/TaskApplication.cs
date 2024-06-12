@@ -17,10 +17,10 @@ namespace ToDo.Application
         public OperationResult Create(CreateTask command)
         {
             var operation = new OperationResult();
-            if (_taskRepository.Exists(x => x.Name == command.Name))
+            if (_taskRepository.Exists(x => x.Title == command.Title))
                 return operation.Failed(ApplicationMessages.DuplicatedRecord);
 
-            var task = new TaskItem(command.Code, command.Name, command.Author, command.Publisher, command.Translator, command.Description, command.CategoryId);
+            var task = new TaskItem(command.Title, command.Description, command.CategoryId);
             _taskRepository.Create(task);
             _taskRepository.SaveChanges();
             return operation.Succeeded();
@@ -33,10 +33,10 @@ namespace ToDo.Application
             if (task == null)
                 return operation.Failed(ApplicationMessages.RecordNotFound);
 
-            if (_taskRepository.Exists(x => x.Name == command.Name && x.Id != command.Id))
+            if (_taskRepository.Exists(x => x.Name == command.Title && x.Id != command.Id))
                 return operation.Failed(ApplicationMessages.DuplicatedRecord);
 
-            task.Edit(command.Code, command.Name, command.Author, command.Publisher, command.Translator, command.Description, command.CategoryId);
+            task.Edit(command.Code, command.Title, command.Author, command.Publisher, command.Translator, command.Description, command.CategoryId);
             _taskRepository.SaveChanges();
             return operation.Succeeded();
         }

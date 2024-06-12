@@ -41,7 +41,7 @@ namespace ToDo.Infrastructure.EFCore.Repositories
             {
                 Id = x.Id,
                 Code = x.Code,
-                Name = x.Name,
+                Title = x.Name,
                 Author = x.Author,
                 Publisher = x.Publisher,
                 Translator = x.Translator,
