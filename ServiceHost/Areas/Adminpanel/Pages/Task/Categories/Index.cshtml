@@ -5,14 +5,14 @@
 
 @{
     Layout = "Shared/_AdminLayout";
-    ViewData["title"] = "مدیریت گروه کتب";
+    ViewData["title"] = "Task List Management";
 }
 
 <div class="row">
     <div class="col-sm-12">
         <h4 class="page-title pull-right">@ViewData["title"]</h4>
         <p class="pull-left">
-            <a class="btn btn-success btn-lg" href="#showmodal=@Url.Page("./Index", "Create")">ایجاد گروه کتاب جدید</a>
+            <a class="btn btn-success btn-lg" href="#showmodal=@Url.Page("./Index", "Create")">Add New Task List</a>
         </p>
     </div>
 </div>
@@ -21,16 +21,16 @@
     <div class="col-md-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title">جستجو در گروه کتاب ها</h3>
+                <h3 class="panel-title">Search in task list</h3>
             </div>
             <div class="panel-body">
                 <form class="form-inline" role="form" method="get">
                     <div class="form-group">
                         <label class="sr-only" asp-for="SearchModel.Name"></label>
-                        <input class="form-control" asp-for="SearchModel.Name" placeholder="نام گروه کتاب">
+                        <input class="form-control" asp-for="SearchModel.Name" placeholder="Task List Name">
                     </div>
-                    <button type="submit" class="btn btn-success waves-effect waves-light m-l-10">جستجو</button>
-                    <a class="btn btn-primary waves-effect waves-light m-l-10" asp-page="./Index">مشاهده همه</a>
+                    <button type="submit" class="btn btn-success waves-effect waves-light m-l-10">Search</button>
+                    <a class="btn btn-primary waves-effect waves-light m-l-10" asp-page="./Index">Show All</a>
                 </form>
             </div>
         </div>
@@ -41,7 +41,7 @@
     <div class="col-md-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title">لیست گروه کتاب</h3>
+                <h3 class="panel-title">Task Lists</h3>
             </div>
             <div class="panel-body">
                 <div class="row">
@@ -50,9 +50,9 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>نام</th>
-                                    <th>تاریخ ایجاد</th>
-                                    <th>عملیات</th>
+                                    <th>Name</th>
+                                    <th>Creation Date</th>
+                                    <th>Operation</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -65,7 +65,7 @@
                                         <td>
                                             <a class="btn btn-warning pull-right m-rl-5" 
                                                href="#showmodal=@Url.Page("./Index", "Edit", new { id = item.Id})">
-                                                <i class="fa fa-edit"></i> ویرایش
+                                                <i class="fa fa-edit"></i> Edit
                                             </a>
                                         </td>
                                     </tr>

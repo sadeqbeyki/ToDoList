@@ -3,7 +3,7 @@
 
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h4 class="modal-title">ویرایش گروه کتاب :‌@Model.Name</h4>
+    <h4 class="modal-title"> Edit Task List :‌@Model.Name</h4>
 </div>
 
 <form asp-page="./Index" asp-page-handler="Edit"
@@ -16,13 +16,13 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label asp-for="Name" class="control-label">نام</label>
+                            <label asp-for="Name" class="control-label">Name</label>
                             <input type="text" class="form-control" asp-for="Name" />
                             <span asp-validation-for="Name" class="error"></span>
                         </div>
                     </div><div class="col-md-6">
                         <div class="form-group">
-                            <label asp-for="Description" class="control-label">توضیحات</label>
+                            <label asp-for="Description" class="control-label">Description</label>
                             <input type="text" class="form-control" asp-for="Description" />
                             <span asp-validation-for="Description" class="error"></span>
                         </div>
@@ -31,7 +31,7 @@
             <input type="hidden" asp-for="Id" value="@Model.Id"/>
         </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">بستن</button>
-        <button type="submit" class="btn btn-info waves-effect waves-light">ویرایش</button>
+        <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-info waves-effect waves-light">Update</button>
     </div>
 </form>
