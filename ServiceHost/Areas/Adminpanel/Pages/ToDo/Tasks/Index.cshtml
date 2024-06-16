@@ -1,5 +1,5 @@
 ﻿@page
-@model ServiceHost.Areas.Adminpanel.Pages.Task.Tasks.IndexModel
+@model ServiceHost.Areas.Adminpanel.Pages.ToDo.Tasks.IndexModel
 @{
 }
 
@@ -70,16 +70,13 @@
                                     <tr>
                                         <td>@item.Id</td>
                                         <td>@item.Title</td>
-                                        <td>@item.Code</td>
+                                        <td>@item.IsDone</td>
                                         <td>@item.Category</td>
-                                        <td>@item.Author</td>
-                                        <td>@item.Publisher</td>
-                                        <td>@item.Translator</td>
                                         <td>@item.CreationDate</td>
                                         <td>
                                             <a class="btn btn-warning pull-right m-rl-5"
                                                href="#showmodal=@Url.Page("./Index", "Edit", new { id = item.Id})">
-                                                <i class="fa fa-edit"></i> ویرایش
+                                                <i class="fa fa-edit"></i> Update
                                             </a>
                                         </td>
                                     </tr>

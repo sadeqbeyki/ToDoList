@@ -57,9 +57,6 @@ public class TaskRepository : RepositoryBase<long, TaskItem>, ITaskRepository
         if (!string.IsNullOrWhiteSpace(searchModel.Name))
             query = query.Where(x => x.Title.Contains(searchModel.Name));
 
-        if (!string.IsNullOrWhiteSpace(searchModel.Code))
-            query = query.Where(x => x.Code.Contains(searchModel.Code));
-
         if (searchModel.CategoryId != 0)
             query = query.Where(x => x.CategoryId == searchModel.CategoryId);
 
