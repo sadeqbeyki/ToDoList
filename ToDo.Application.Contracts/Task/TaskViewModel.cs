@@ -6,7 +6,7 @@ public class TaskViewModel
     public string Title { get; set; }
     public bool IsDone { get; set; }
     public string Description { get; set; }
-    public string Category { get; set; }
-    public long CategoryId { get; set; }
+    public string TaskList { get; set; }
+    public long TaskListId { get; set; }
     public string CreationDate { get; set; }
 }

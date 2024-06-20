@@ -32,7 +32,7 @@ public class IndexModel : PageModel
     {
         var command = new CreateTask
         {
-            Categories = _taskCategoryApplication.GetTaskCategories()
+            TaskList = _taskCategoryApplication.GetTaskCategories()
         };
         return Partial("./Create", command);
     }
@@ -46,7 +46,7 @@ public class IndexModel : PageModel
     public PartialViewResult OnGetEdit(long id)
     {
         var task = _taskApplication.GetDetails(id);
-        task.Categories = _taskCategoryApplication.GetTaskCategories();
+        task.TaskList = _taskCategoryApplication.GetTaskCategories();
         return Partial("Edit", task);
     }
     public JsonResult OnPostEdit(EditTask command)

@@ -19,7 +19,7 @@ public class TaskApplication : ITaskApplication
         if (_taskRepository.Exists(x => x.Title == command.Title))
             return operation.Failed(ApplicationMessages.DuplicatedRecord);
 
-        var task = new TaskItem(command.Title, command.Description, command.CategoryId);
+        var task = new TaskItem(command.Title, command.Description, command.TaskListId);
         _taskRepository.Create(task);
         _taskRepository.SaveChanges();
         return operation.Succeeded();
@@ -35,7 +35,7 @@ public class TaskApplication : ITaskApplication
         if (_taskRepository.Exists(x => x.Title == command.Title && x.Id != command.Id))
             return operation.Failed(ApplicationMessages.DuplicatedRecord);
 
-        task.Edit(command.Title, command.Description, command.CategoryId);
+        task.Edit(command.Title, command.Description, command.TaskListId);
         _taskRepository.SaveChanges();
         return operation.Succeeded();
     }

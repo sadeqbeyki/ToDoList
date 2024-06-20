@@ -4,7 +4,7 @@ using ToDo.Application.Contracts.TaskCategory;
 
 namespace ToDo.Domain.TaskCategoryAgg
 {
-    public interface ITaskCategoryRepository : IRepository<long, TaskCategory>
+    public interface ITaskCategoryRepository : IRepository<long, TaskList>
     {
         EditTaskCategory GetDetails(long id);
         List<TaskCategoryViewModel> GetTaskCategories();

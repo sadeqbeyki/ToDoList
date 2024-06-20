@@ -8,7 +8,7 @@ using ToDo.Infrastructure.EFCore;
 
 namespace ToDo.Infrastructure.EFCore.Repositories
 {
-    public class TaskCategoryRepository : RepositoryBase<long, TaskCategory>, ITaskCategoryRepository
+    public class TaskCategoryRepository : RepositoryBase<long, TaskList>, ITaskCategoryRepository
     {
         private readonly ToDoContext _todoContext;
 
@@ -19,7 +19,7 @@ namespace ToDo.Infrastructure.EFCore.Repositories
 
         public List<TaskCategoryViewModel> GetTaskCategories()
         {
-            return _todoContext.TaskViewModel.Select(x => new TaskCategoryViewModel
+            return _todoContext.TaskList.Select(x => new TaskCategoryViewModel
             {
                 Id = x.Id,
                 Name = x.Name,
@@ -29,7 +29,7 @@ namespace ToDo.Infrastructure.EFCore.Repositories
 
         public EditTaskCategory GetDetails(long id)
         {
-            return _todoContext.TaskViewModel.Select(x => new EditTaskCategory
+            return _todoContext.TaskList.Select(x => new EditTaskCategory
             {
                 Id = x.Id,
                 Name = x.Name,
@@ -39,7 +39,7 @@ namespace ToDo.Infrastructure.EFCore.Repositories
 
         public List<TaskCategoryViewModel> Search(TaskCategorySearchModel searchModel)
         {
-            var query = _todoContext.TaskViewModel.Select(x => new TaskCategoryViewModel
+            var query = _todoContext.TaskList.Select(x => new TaskCategoryViewModel
             {
                 Id = x.Id,
                 Name = x.Name,

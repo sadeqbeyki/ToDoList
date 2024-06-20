@@ -19,7 +19,7 @@ public class TaskRepository : RepositoryBase<long, TaskItem>, ITaskRepository
 
     public List<TaskViewModel> GetTasks()
     {
-        return _taskContext.Tasks.Select(x => new TaskViewModel
+        return _taskContext.TaskItems.Select(x => new TaskViewModel
         {
             Id = x.Id,
             Title = x.Title,
@@ -29,36 +29,36 @@ public class TaskRepository : RepositoryBase<long, TaskItem>, ITaskRepository
 
     public TaskItem GetTaskWithCategory(long id)
     {
-        return _taskContext.Tasks.Include(x => x.Category).FirstOrDefault(x => x.Id == id);
+        return _taskContext.TaskItems.Include(x => x.TaskList).FirstOrDefault(x => x.Id == id);
     }
 
     public EditTask GetDetails(long id)
     {
-        return _taskContext.Tasks.Select(x => new EditTask
+        return _taskContext.TaskItems.Select(x => new EditTask
         {
             Id = x.Id,
             Title = x.Title,
-            CategoryId = x.CategoryId,
+            TaskListId = x.TaskListId,
             Description = x.Description
         }).FirstOrDefault(x => x.Id == id);
     }
 
     public List<TaskViewModel> Search(TaskSearchModel searchModel)
     {
-        var query = _taskContext.Tasks.Include(x => x.Category).Select(x => new TaskViewModel
+        var query = _taskContext.TaskItems.Include(x => x.TaskList).Select(x => new TaskViewModel
         {
             Id = x.Id,
             Title = x.Title,
-            CategoryId = x.CategoryId,
-            Category = x.Category.Name,
+            TaskListId = x.TaskListId,
+            TaskList = x.TaskList.Name,
             CreationDate = x.CreationDate.ToFarsi()
         });
 
         if (!string.IsNullOrWhiteSpace(searchModel.Name))
             query = query.Where(x => x.Title.Contains(searchModel.Name));
 
-        if (searchModel.CategoryId != 0)
-            query = query.Where(x => x.CategoryId == searchModel.CategoryId);
+        if (searchModel.TaskListId != 0)
+            query = query.Where(x => x.TaskListId == searchModel.TaskListId);
 
         return query.OrderByDescending(x => x.Id).ToList();
     }

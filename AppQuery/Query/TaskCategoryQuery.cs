@@ -19,7 +19,7 @@ public class TaskCategoryQuery : ITaskCategoryQuery
 
     public List<TaskCategoryQueryModel> GetTaskCategories()
     {
-        return _todoContext.TaskViewModel.Select(x => new TaskCategoryQueryModel
+        return _todoContext.TaskList.Select(x => new TaskCategoryQueryModel
         {
             Id = x.Id,
             Name = x.Name
@@ -28,12 +28,12 @@ public class TaskCategoryQuery : ITaskCategoryQuery
 
     public List<TaskCategoryQueryModel> GetTaskCategoriesWithTasks()
     {
-        var categories = _todoContext.TaskViewModel.Include(x => x.Tasks).ThenInclude(x => x.Category)
+        var categories = _todoContext.TaskList.Include(x => x.TaskItems).ThenInclude(x => x.TaskList)
             .Select(x => new TaskCategoryQueryModel
             {
                 Id=x.Id,
                 Name=x.Name,
-                Tasks=MapTasks(x.Tasks)
+                Tasks=MapTasks(x.TaskItems)
             }).OrderByDescending(x => x.Id).ToList();
         return categories;
     }
@@ -42,7 +42,7 @@ public class TaskCategoryQuery : ITaskCategoryQuery
         return products.Select(p => new TaskQueryModel
         {
             Id = p.Id,
-            Category = p.Category.Name,
+            TaskList = p.TaskList.Name,
             Name = p.Title,
         }).ToList();
     }

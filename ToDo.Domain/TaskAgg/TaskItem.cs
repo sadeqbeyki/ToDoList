@@ -8,15 +8,15 @@ public class TaskItem : EntityBase
     public string Title { get; set; }
     public string Description { get; set; }
     public bool IsDone { get; set; }
-    public long CategoryId { get; private set; }
-    public TaskCategory Category { get; private set; }
+    public long TaskListId { get; private set; }
+    public TaskList TaskList { get; private set; }
 
-    public TaskItem(string title, string description, long categoryId)
+    public TaskItem(string title, string description, long taskListId)
     {
         Title = title;
         IsDone = false;
         Description = description;  
-        CategoryId = categoryId;
+        TaskListId = taskListId;
     }
 
     public void MarkDone()
@@ -24,11 +24,11 @@ public class TaskItem : EntityBase
         IsDone = true;
     }
 
-    public void Edit(string title, string description, long categoryId)
+    public void Edit(string title, string description, long taskListId)
     {
         Title = title;  
         Description = description;
-        CategoryId = categoryId;
+        TaskListId = taskListId;
     }
 }
 

@@ -31,8 +31,8 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="sr-only" asp-for="SearchModel.CategoryId"></label>
-                        <select class="form-control" asp-for="SearchModel.CategoryId" asp-items="Model.TaskViewModel">
+                        <label class="sr-only" asp-for="SearchModel.TaskListId"></label>
+                        <select class="form-control" asp-for="SearchModel.TaskListId" asp-items="Model.TaskViewModel">
                             <option value="0">Task List Name</option>
                         </select>
                     </div>
@@ -71,7 +71,7 @@
                                         <td>@item.Id</td>
                                         <td>@item.Title</td>
                                         <td>@item.IsDone</td>
-                                        <td>@item.Category</td>
+                                        <td>@item.TaskList</td>
                                         <td>@item.CreationDate</td>
                                         <td>
                                             <a class="btn btn-warning pull-right m-rl-5"

@@ -20,7 +20,7 @@ namespace ToDo.Application
             if (_taskCategoryRepository.Exists(x => x.Name == command.Name))
                 return operation.Failed(ApplicationMessages.DuplicatedRecord);
 
-            var taskCategory = new TaskCategory(command.Name, command.Description);
+            var taskCategory = new TaskList(command.Name, command.Description);
             _taskCategoryRepository.Create(taskCategory);
             _taskCategoryRepository.SaveChanges();
             return operation.Succeeded();
