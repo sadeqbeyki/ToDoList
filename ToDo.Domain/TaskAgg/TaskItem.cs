@@ -24,11 +24,12 @@ public class TaskItem : EntityBase
         IsDone = true;
     }
 
-    public void Edit(string title, string description, long taskListId)
+    public void Edit(string title, string description, long taskListId,bool isDone)
     {
         Title = title;  
         Description = description;
         TaskListId = taskListId;
+        IsDone = isDone;
     }
 }
 

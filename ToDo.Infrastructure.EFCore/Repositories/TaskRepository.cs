@@ -49,6 +49,7 @@ public class TaskRepository : RepositoryBase<long, TaskItem>, ITaskRepository
         {
             Id = x.Id,
             Title = x.Title,
+            IsDone = x.IsDone,
             TaskListId = x.TaskListId,
             TaskList = x.TaskList.Name,
             CreationDate = x.CreationDate.ToFarsi()

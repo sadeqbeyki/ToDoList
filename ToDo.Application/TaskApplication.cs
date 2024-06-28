@@ -35,7 +35,8 @@ public class TaskApplication : ITaskApplication
         if (_taskRepository.Exists(x => x.Title == command.Title && x.Id != command.Id))
             return operation.Failed(ApplicationMessages.DuplicatedRecord);
 
-        task.Edit(command.Title, command.Description, command.TaskListId);
+        task.Edit(command.Title, command.Description, command.TaskListId, command.IsDone);
+
         _taskRepository.SaveChanges();
         return operation.Succeeded();
     }

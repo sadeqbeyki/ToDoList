@@ -36,7 +36,7 @@
                     <label asp-for="TaskListId" class="control-label">Task List</label>
                     <select class="form-control" asp-for="TaskListId" 
                         asp-items='new SelectList(Model.TaskList, "Id", "Name")'>
-                        <option value="">گروه کتاب</option>
+                        <option value="">فهرست وظایف</option>
                     </select>
                     <span asp-validation-for="TaskListId" class="error"></span>
                 </div>

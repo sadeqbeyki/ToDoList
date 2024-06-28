@@ -38,6 +38,11 @@ public class RepositoryBase<TKey, T> : IRepository<TKey, T> where T : class
 
     public void SaveChanges()
     {
+        var entries = _context.ChangeTracker.Entries();
+        foreach (var entry in entries)
+        {
+            Console.WriteLine($"Entity: {entry.Entity.GetType().Name}, State: {entry.State}");
+        }
         _context.SaveChanges();
     }
 }
