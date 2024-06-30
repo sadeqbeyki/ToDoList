@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <Folder Include="Areas\Adminpanel\Pages\Account\" />
+    <Folder Include="wwwroot\Dashboard\" />
   </ItemGroup>
 
 </Project>

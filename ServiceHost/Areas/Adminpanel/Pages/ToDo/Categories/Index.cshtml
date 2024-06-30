@@ -1,7 +1,5 @@
 ﻿@page 
 @model ServiceHost.Areas.Adminpanel.Pages.ToDo.Categories.IndexModel
-@{
-}
 
 @{
     Layout = "Shared/_AdminLayout";
@@ -78,14 +76,3 @@
         </div>
     </div>
 </div>  
-
-@section Scripts {
-    <script src="~/adminTheme/assets/datatables/jquery.dataTables.min.js"></script>
-    <script src="~/adminTheme/assets/datatables/dataTables.bootstrap.js"></script>
-
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('#datatable').dataTable();
-        });
-    </script>
-}

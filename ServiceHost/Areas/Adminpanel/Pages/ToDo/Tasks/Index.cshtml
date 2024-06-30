@@ -1,10 +1,7 @@
 ﻿@page
 @model ServiceHost.Areas.Adminpanel.Pages.ToDo.Tasks.IndexModel
 @{
-}
-
-@{
-    Layout = "Shared/_AdminLayout";
+    Layout = "Shared/_DashboardLayout";
     ViewData["title"] = "Task Management";
 }
 
@@ -92,13 +89,3 @@
     </div>
 </div>
 
-@section Scripts {
-    <script src="~/adminTheme/assets/datatables/jquery.dataTables.min.js"></script>
-    <script src="~/adminTheme/assets/datatables/dataTables.bootstrap.js"></script>
-
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('#datatable').dataTable();
-        });
-    </script>
-}
