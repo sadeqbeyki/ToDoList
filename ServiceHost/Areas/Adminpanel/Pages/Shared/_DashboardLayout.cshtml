@@ -38,10 +38,15 @@
         </nav>
     </header>
 
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3">
+                @await Html.PartialAsync("_Sidebar")
+            </div>
+            <div class="col-md-9">
+                @RenderBody()
+            </div>
+        </div>
     </div>
 
     <footer class="border-top footer text-muted">
@@ -61,6 +66,7 @@
     <script src="~/js/site.js"></script>
 
 
+    @await RenderSectionAsync("Scripts", required: false)
 
 </body>
 </html>
