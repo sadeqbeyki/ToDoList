@@ -8,7 +8,7 @@ namespace ToDo.Application.Contracts.TaskCategory
         OperationResult Create(CreateTaskCategory command);
         OperationResult Edit(EditTaskCategory command);
         EditTaskCategory GetDetails(long id);
-        List<TaskCategoryViewModel> GetTaskCategories();
+        List<TaskCategoryViewModel> GetTaskList();
         List<TaskCategoryViewModel> Search(TaskCategorySearchModel searchModel);
     }
 }

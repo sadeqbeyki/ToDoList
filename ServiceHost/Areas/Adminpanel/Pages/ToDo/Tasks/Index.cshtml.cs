@@ -25,16 +25,16 @@ public class IndexModel : PageModel
 
     public void OnGet(TaskSearchModel searchModel)
     {
-        TaskViewModel = new SelectList(_taskCategoryApplication.GetTaskCategories(), "Id", "Name");
+        TaskViewModel = new SelectList(_taskCategoryApplication.GetTaskList(), "Id", "Name");
         Tasks = _taskApplication.Search(searchModel);
     }
     public PartialViewResult OnGetCreate()
     {
         var command = new CreateTask
         {
-            TaskList = _taskCategoryApplication.GetTaskCategories()
+            TaskList = _taskCategoryApplication.GetTaskList()
         };
-        return Partial("./Create", command);
+        return Partial("Partial/_Create", command);
     }
 
     public JsonResult OnPostCreate(CreateTask command)
@@ -46,7 +46,7 @@ public class IndexModel : PageModel
     public PartialViewResult OnGetEdit(long id)
     {
         var task = _taskApplication.GetDetails(id);
-        task.TaskList = _taskCategoryApplication.GetTaskCategories();
+        task.TaskList = _taskCategoryApplication.GetTaskList();
         return Partial("Edit", task);
     }
     public JsonResult OnPostEdit(EditTask command)

@@ -41,7 +41,7 @@ namespace ToDo.Application
             return operation.Succeeded();
         }
 
-        public List<TaskCategoryViewModel> GetTaskCategories()
+        public List<TaskCategoryViewModel> GetTaskList()
         {
             return _taskCategoryRepository.GetTaskCategories();
         }
