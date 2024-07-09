@@ -2,19 +2,19 @@
 @model ServiceHost.Areas.Adminpanel.Pages.ToDo.Tasks.IndexModel
 @{
     Layout = "Shared/_DashboardLayout";
-    ViewData["Title"] = "Task Management";
+    ViewData["Title"] = "Tasks";
 }
 
 <div class="row">
     <div class="col-sm-12">
         <h4 class="page-title pull-right">@ViewData["Title"]</h4>
         <p class="pull-left">
-            <a class="btn btn-success btn-lg" onclick="showModal('@Url.Page("./Index", "Create")')">New Task</a>
+
+            <a class="btn btn-success btn-lg" href="#showmodal=@Url.Page("./Index", "Create")">Add Task</a>
+
         </p>
     </div>
 </div>
-
-
 
 <div class="row">
     <div class="col-md-12">
@@ -75,7 +75,7 @@
                                 <td>@item.CreationDate</td>
                                 <td>
                                     <a class="btn btn-warning pull-right m-rl-5"
-                                       href="#showmodal=@Url.Page("./Index", "Edit", new { id = item.Id})">
+                                       href="#showModal=@Url.Page("./Index", "Edit", new { id = item.Id})">
                                         <i class="fa fa-edit"></i> Update
                                     </a>
                                 </td>
@@ -87,17 +87,3 @@
         </div>
     </div>
 </div>
-
-<div id="modal-placeholder"></div>
-
-@section Scripts {
-    <script src="~/js/site-modal.js"></script>
-
-    <script>
-        function refreshList() {
-            $.get('@Url.Page("./Index", "GetTasksPartial")', function (html) {
-                $('#TaskListDiv').html(html);
-            });
-        }
-    </script>
-}

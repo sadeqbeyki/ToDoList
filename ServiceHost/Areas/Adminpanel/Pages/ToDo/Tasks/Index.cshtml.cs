@@ -1,4 +1,4 @@
-using ToDo.Application.Contracts.Task;
+﻿using ToDo.Application.Contracts.Task;
 using ToDo.Application.Contracts.TaskCategory;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -10,8 +10,8 @@ namespace ServiceHost.Areas.Adminpanel.Pages.ToDo.Tasks;
 public class IndexModel : PageModel
 {
     [TempData] public string Message { get; set; }
-    public TaskSearchModel SearchModel;
-    public List<TaskViewModel> Tasks;
+    public List<TaskViewModel> Tasks { get; set; } = new();
+    public TaskSearchModel SearchModel { get; set; } = new();
     public SelectList TaskViewModel;
 
     private readonly ITaskApplication _taskApplication;
@@ -25,6 +25,7 @@ public class IndexModel : PageModel
 
     public void OnGet(TaskSearchModel searchModel)
     {
+        //SearchModel = searchModel;  
         TaskViewModel = new SelectList(_taskCategoryApplication.GetTaskList(), "Id", "Name");
         Tasks = _taskApplication.Search(searchModel);
     }
@@ -34,13 +35,32 @@ public class IndexModel : PageModel
         {
             TaskList = _taskCategoryApplication.GetTaskList()
         };
-        return Partial("Partial/_Create", command);
+        return Partial("Create", command);
     }
 
-    public JsonResult OnPostCreate(CreateTask command)
+
+    //public JsonResult OnPostCreate(CreateTask command)
+    //{
+    //    var result = _taskApplication.Create(command);
+    //    return new JsonResult(result);
+    //}
+
+    public IActionResult OnPostCreate(CreateTask command)
     {
+        if (!ModelState.IsValid)
+        {
+            command.TaskList = _taskCategoryApplication.GetTaskList();
+            return Partial("Create", command);
+        }
+
         var result = _taskApplication.Create(command);
-        return new JsonResult(result);
+
+        if (result.IsSucceeded)
+            return new JsonResult("Success");
+
+        ModelState.AddModelError("", result.Message);
+        command.TaskList = _taskCategoryApplication.GetTaskList();
+        return Partial("Create", command);
     }
 
     public PartialViewResult OnGetEdit(long id)
@@ -49,6 +69,7 @@ public class IndexModel : PageModel
         task.TaskList = _taskCategoryApplication.GetTaskList();
         return Partial("Edit", task);
     }
+
     public JsonResult OnPostEdit(EditTask command)
     {
         var result = _taskApplication.Edit(command);
