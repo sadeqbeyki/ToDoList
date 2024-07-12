@@ -56,7 +56,7 @@ public class IndexModel : PageModel
         var result = _taskApplication.Create(command);
 
         if (result.IsSucceeded)
-            return new JsonResult("Success");
+            return new JsonResult(result);
 
         ModelState.AddModelError("", result.Message);
         command.TaskList = _taskCategoryApplication.GetTaskList();
