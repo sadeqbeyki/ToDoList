@@ -3,6 +3,7 @@ using AppFramework.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using ToDo.Application.Contracts.Task;
 using ToDo.Domain.TaskAgg;
 
@@ -41,6 +42,18 @@ public class TaskRepository : RepositoryBase<long, TaskItem>, ITaskRepository
             TaskListId = x.TaskListId,
             Description = x.Description
         }).FirstOrDefault(x => x.Id == id);
+    }
+
+    public async Task<TaskViewModel> GetTask(long id)
+    {
+        return await _taskContext.TaskItems.Select(x => new TaskViewModel
+        {
+            Id = x.Id,
+            Title = x.Title,
+            IsDone = x.IsDone,
+            Description = x.Description,
+            TaskListId = x.TaskListId
+        }).FirstOrDefaultAsync(x => x.Id == id);
     }
 
     public List<TaskViewModel> Search(TaskSearchModel searchModel)

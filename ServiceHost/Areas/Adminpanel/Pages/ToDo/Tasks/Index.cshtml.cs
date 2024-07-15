@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ServiceHost.Areas.Adminpanel.Pages.ToDo.Tasks;
 
@@ -11,6 +12,7 @@ public class IndexModel : PageModel
 {
     [TempData] public string Message { get; set; }
     public List<TaskViewModel> Tasks { get; set; } = new();
+    public TaskViewModel TaskDetails { get; set; } = new();
     public TaskSearchModel SearchModel { get; set; } = new();
     public SelectList TaskViewModel;
 
@@ -29,6 +31,11 @@ public class IndexModel : PageModel
         TaskViewModel = new SelectList(_taskCategoryApplication.GetTaskList(), "Id", "Name");
         Tasks = _taskApplication.Search(searchModel);
     }
+
+    public async Task OnGetAsync(long id)
+    {
+        TaskDetails = await _taskApplication.GetTask(id);
+    }
     public PartialViewResult OnGetCreate()
     {
         var command = new CreateTask
@@ -37,13 +44,6 @@ public class IndexModel : PageModel
         };
         return Partial("Create", command);
     }
-
-
-    //public JsonResult OnPostCreate(CreateTask command)
-    //{
-    //    var result = _taskApplication.Create(command);
-    //    return new JsonResult(result);
-    //}
 
     public IActionResult OnPostCreate(CreateTask command)
     {

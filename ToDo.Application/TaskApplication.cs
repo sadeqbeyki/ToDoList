@@ -2,6 +2,7 @@
 using ToDo.Application.Contracts.Task;
 using System.Collections.Generic;
 using ToDo.Domain.TaskAgg;
+using System.Threading.Tasks;
 
 namespace ToDo.Application;
 public class TaskApplication : ITaskApplication
@@ -54,5 +55,11 @@ public class TaskApplication : ITaskApplication
     public List<TaskViewModel> Search(TaskSearchModel searchModel)
     {
         return _taskRepository.Search(searchModel);
+    }
+
+    public async Task<TaskViewModel> GetTask(long id)
+    {
+        return await _taskRepository.GetTask(id);
+
     }
 }
