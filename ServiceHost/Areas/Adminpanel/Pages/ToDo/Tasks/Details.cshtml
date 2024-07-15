@@ -1,0 +1,40 @@
+﻿@* @page "{handler?}" *@
+@using global::ToDo.Application.Contracts.Task
+@model TaskViewModel
+@{
+}
+
+<div class="modal fade" tabindex="-1" role="dialog" id="details-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Task Details (JSON)</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <span class="d-inline-block">Id:</span><span>@Model.Id</span>
+                </div>
+                <div>
+                    <span class="d-inline-block">Title:</span><span>@Model.Title</span>
+                </div>
+                <div>
+                    <span class="d-inline-block">Is Done:</span><span>@Model.IsDone</span>
+                </div>
+                <div>
+                    <span class="d-inline-block">Description:</span><span>@Model.Description</span>
+                </div>
+                <div>
+                    <span class="d-inline-block">List Id:</span><span>@Model.TaskListId</span>
+                </div>
+                <div>
+                    <span class="d-inline-block">Creation Date:</span><span>@Model.CreationDate</span>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -32,7 +32,7 @@ public class IndexModel : PageModel
         Tasks = _taskApplication.Search(searchModel);
     }
 
-    public async Task OnGetAsync(long id)
+    public async Task OnGetDetailsAsync(long id)
     {
         TaskDetails = await _taskApplication.GetTask(id);
     }

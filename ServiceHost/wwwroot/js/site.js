@@ -1,160 +1,126 @@
-﻿var SinglePage = {};
+﻿// SinglePage object to manage modal operations
+const SinglePage = {
+    loadModal() {
+        const hash = window.location.hash.toLowerCase();
+        if (!hash.startsWith("#showmodal")) return;
 
-SinglePage.LoadModal = function () {
-    var url = window.location.hash.toLowerCase();
-    if (!url.startsWith("#showmodal")) {
-        return;
+        const urlParam = hash.split("showmodal=")[1];
+        if (!urlParam) return;
+
+        $.get(urlParam)
+            .done(html => {
+                const $modalContent = $("#ModalContent").html(html);
+                const $form = $modalContent.find("form").last();
+                $.validator.unobtrusive.parse($form);
+                this.showModal();
+            })
+            .fail(() => alert("خطایی رخ داده، لطفا با مدیر سیستم تماس بگیرید."));
+    },
+
+    showModal() {
+        const $modal = $("#MainModal");
+        $modal.modal("show");
+
+        // Handle close button
+        $modal.find(".modal-close").off("click").on("click", () => this.hideModal());
+
+        // Clean up URL
+        window.history.replaceState({}, document.title, window.location.pathname);
+    },
+
+    hideModal() {
+        $("#MainModal").modal("hide");
+    },
+
+    handleAjaxFormSubmit($form) {
+        const method = $form.attr("method").toLowerCase();
+        const url = $form.attr("action");
+        const action = $form.data("action");
+
+        if (method === "get") {
+            const data = $form.serialize();
+            $.get(url, data, result => this.handleCallback(result, action, $form));
+        } else {
+            const formData = new FormData($form[0]);
+            $.ajax({
+                url,
+                type: "post",
+                data: formData,
+                enctype: "multipart/form-data",
+                dataType: "json",
+                processData: false,
+                contentType: false,
+                success: data => this.handleCallback(data, action, $form),
+                error: () => alert("خطایی رخ داده است. لطفا با مدیر سیستم تماس بگیرید.")
+            });
+        }
+    },
+
+    handleCallback(data, action, $form) {
+        switch (action) {
+            case "Message":
+                alert(data.message);
+                break;
+            case "Refresh":
+                if (data.isSucceeded) window.location.reload();
+                else alert(data.message);
+                break;
+            case "RefreshList":
+                this.hideModal();
+                const refreshUrl = $form.data("refreshurl");
+                const refreshDiv = $form.data("refreshdiv");
+                if (refreshUrl && refreshDiv) this.refreshContent(refreshUrl, refreshDiv);
+                break;
+            case "SetValue":
+                const element = $form.data("element");
+                if (element) $(`#${element}`).html(data);
+                break;
+            default:
+                this.hideModal();
+        }
+    },
+
+    refreshContent(url, targetId) {
+        const params = window.location.search;
+        $.get(url, params, result => $(`#${targetId}`).html(result));
     }
-    url = url.split("showmodal=")[1];
-    $.get(url,
-        null,
-        function (htmlPage) {
-            $("#ModalContent").html(htmlPage);
-            const container = document.getElementById("ModalContent");
-            const forms = container.getElementsByTagName("form");
-            const newForm = forms[forms.length - 1];
-            $.validator.unobtrusive.parse(newForm);
-            showModal();
-        }).fail(function (error) {
-            alert("خطایی رخ داده، لطفا با مدیر سیستم تماس بگیرید.");
-        });
 };
 
-function showModal() {
-    $("#MainModal").modal("show");
-}
+// Document ready setup
+$(function () {
+    window.onhashchange = () => SinglePage.loadModal();
 
-function hideModal() {
-    $("#MainModal").modal("hide");
-}
-
-$(document).ready(function () {
-    window.onhashchange = function () {
-        SinglePage.LoadModal();
-    };
-    $("#MainModal").on("shown.bs.modal",
-        function () {
-            window.location.hash = "##";
-            $('.persianDateInput').persianDatepicker({
-                format: 'YYYY/MM/DD',
-                autoClose: true
-            });
-        });
-
-    $(document).on("submit",
-        'form[data-ajax="true"]',
-        function (e) {
-            e.preventDefault();
-            var form = $(this);
-            const method = form.attr("method").toLocaleLowerCase();
-            const url = form.attr("action");
-            var action = form.attr("data-action");
-
-            if (method === "get") {
-                const data = form.serializeArray();
-                $.get(url,
-                    data,
-                    function (data) {
-                        CallBackHandler(data, action, form);
-                    });
-            } else {
-                var formData = new FormData(this);
-                $.ajax({
-                    url: url,
-                    type: "post",
-                    data: formData,
-                    enctype: "multipart/form-data",
-                    dataType: "json",
-                    processData: false,
-                    contentType: false,
-                    success: function (data) {
-                        CallBackHandler(data, action, form);
-                    },
-                    error: function (data) {
-                        alert("خطایی رخ داده است. لطفا با مدیر سیستم تماس بگیرید.");
-                    }
-                });
-            }
-            return false;
-        });
-});
-
-function CallBackHandler(data, action, form) {
-    switch (action) {
-        case "Message":
-            alert(data.Message);
-            break;
-        case "Refresh":
-            if (data.isSucceeded) {
-                window.location.reload();
-            } else {
-                alert(data.message);
-            }
-            break;
-        case "RefereshList":
-            {
-                hideModal();
-                const refereshUrl = form.attr("data-refereshurl");
-                const refereshDiv = form.attr("data-refereshdiv");
-                get(refereshUrl, refereshDiv);
-            }
-            break;
-        case "setValue":
-            {
-                const element = form.data("element");
-                $(`#${element}`).html(data);
-            }
-            break;
-        default:
-    }
-}
-
-function get(url, refereshDiv) {
-    const searchModel = window.location.search;
-    $.get(url,
-        searchModel,
-        function (result) {
-            $("#" + refereshDiv).html(result);
-        });
-}
-
-function fillField(source, dist) {
-    const value = $('#' + source).val();
-    $('#' + dist).val(value);
-}
-
-$(document).on("click",
-    'button[data-ajax="true"]',
-    function () {
-        const button = $(this);
-        const form = button.data("request-form");
-        const data = $(`#${form}`).serialize();
-        let url = button.data("request-url");
-        const method = button.data("request-method");
-        const field = button.data("request-field-id");
-        if (field !== undefined) {
-            const fieldValue = $(`#${field}`).val();
-            url = url + "/" + fieldValue;
-        }
-        if (button.data("request-confirm") == true) {
-            if (confirm("آیا از انجام این عملیات اطمینان دارید؟")) {
-                handleAjaxCall(method, url, data);
-            }
-        } else {
-            handleAjaxCall(method, url, data);
-        }
+    // Submit AJAX forms
+    $(document).on("submit", 'form[data-ajax="true"]', function (e) {
+        e.preventDefault();
+        SinglePage.handleAjaxFormSubmit($(this));
+        return false;
     });
 
-function handleAjaxCall(method, url, data) {
-    if (method === "post") {
-        $.post(url,
-            data,
-            "application/json; charset=utf-8",
-            "json",
-            function (data) {
+    // Ajax-enabled buttons
+    $(document).on("click", 'button[data-ajax="true"]', function () {
+        const $btn = $(this);
+        const method = $btn.data("request-method")?.toLowerCase();
+        let url = $btn.data("request-url");
+        const formId = $btn.data("request-form");
+        const fieldId = $btn.data("request-field-id");
+        const data = formId ? $(`#${formId}`).serialize() : null;
 
-            }).fail(function (error) {
-                alert("خطایی رخ داده است. لطفا با مدیر سیستم تماس بگیرید.");
-            });
-    }
-}
+        if (fieldId) url += `/${$(`#${fieldId}`).val()}`;
+
+        if ($btn.data("request-confirm")) {
+            if (!confirm("آیا از انجام این عملیات اطمینان دارید؟")) return;
+        }
+
+        if (method === "post") {
+            $.post(url, data)
+                .done(() => window.location.reload())
+                .fail(() => alert("خطایی رخ داده است. لطفا با مدیر سیستم تماس بگیرید."));
+        } else {
+            $.get(url, data)
+                .done(response => console.log(response))
+                .fail(() => alert("خطایی رخ داده است. لطفا با مدیر سیستم تماس بگیرید."));
+        }
+    });
+});
+
