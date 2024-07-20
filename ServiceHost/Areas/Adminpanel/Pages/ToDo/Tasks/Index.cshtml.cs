@@ -32,10 +32,12 @@ public class IndexModel : PageModel
         Tasks = _taskApplication.Search(searchModel);
     }
 
-    public async Task OnGetDetailsAsync(long id)
+    public async Task<IActionResult> OnGetDetailsAsync(long id)
     {
         TaskDetails = await _taskApplication.GetTask(id);
+        return Partial("Details", TaskDetails);
     }
+
     public PartialViewResult OnGetCreate()
     {
         var command = new CreateTask

@@ -1,40 +1,36 @@
-﻿@* @page "{handler?}" *@
-@using global::ToDo.Application.Contracts.Task
-@model TaskViewModel
+﻿@model TaskViewModel
 @{
+    ViewData["Title"] = "Update Task";
 }
 
-<div class="modal fade" tabindex="-1" role="dialog" id="details-modal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Task Details (JSON)</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div>
-                    <span class="d-inline-block">Id:</span><span>@Model.Id</span>
-                </div>
-                <div>
-                    <span class="d-inline-block">Title:</span><span>@Model.Title</span>
-                </div>
-                <div>
-                    <span class="d-inline-block">Is Done:</span><span>@Model.IsDone</span>
-                </div>
-                <div>
-                    <span class="d-inline-block">Description:</span><span>@Model.Description</span>
-                </div>
-                <div>
-                    <span class="d-inline-block">List Id:</span><span>@Model.TaskListId</span>
-                </div>
-                <div>
-                    <span class="d-inline-block">Creation Date:</span><span>@Model.CreationDate</span>
-                </div>
-
-
-            </div>
-        </div>
-    </div>
+<div class="modal-header">
+    <h4 class="modal-title">@ViewData["Title"]: @Model.Title</h4>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
+
+
+
+<form asp-page="./Index" asp-page-handler="Details" method="get">
+    <div class="modal-body">
+        <ul class="list-group">
+            <li class="list-group-item"><strong>Id:</strong> @Model.Id</li>
+            <li class="list-group-item"><strong>Title:</strong> @Model.Title</li>
+            <li class="list-group-item"><strong>Is Done:</strong> @(Model.IsDone ? "Yes" : "No")</li>
+            <li class="list-group-item"><strong>Description:</strong> @Model.Description</li>
+            <li class="list-group-item"><strong>List Id:</strong> @Model.TaskListId</li>
+            <li class="list-group-item"><strong>Creation Date:</strong> @Model.CreationDate</li>
+        </ul>
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary modal-close" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary modal-close"
+                onclick="window.location.hash = 'showModal=/Index/Edit?id=@Model.Id'">
+            Update
+        </button>
+        <a class="btn btn-success pull-right m-rl-5"
+           href="#showModal=@Url.Page("./Index", "Edit", new { id = Model.Id})">
+            <i class="fa fa-edit"></i> Update
+        </a>
+    </div>
+</form>

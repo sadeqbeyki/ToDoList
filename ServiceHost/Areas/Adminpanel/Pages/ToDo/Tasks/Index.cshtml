@@ -10,7 +10,7 @@
         <h4 class="page-title pull-right">@ViewData["Title"]</h4>
         <p class="pull-left">
 
-            <a class="btn btn-success btn-lg" href="#showmodal=@Url.Page("./Index", "Create")">Add Task</a>
+            <a class="btn btn-success" href="#showmodal=@Url.Page("./Index", "Create")">Add Task</a>
 
         </p>
     </div>
@@ -74,13 +74,15 @@
                                 <td>@item.TaskList</td>
                                 <td>@item.CreationDate</td>
                                 <td>
-                                    <a class="btn btn-warning pull-right m-rl-5"
+                                    <a class="btn btn-success pull-right m-rl-5"
                                        href="#showModal=@Url.Page("./Index", "Edit", new { id = item.Id})">
                                         <i class="fa fa-edit"></i> Update
                                     </a>
-                                     | 
-                                    <button class="btn btn-sm btn-dark details" data-id="@item.Id" 
-                                    data-toggle="modal" data-target="#details-modal">Details</button>
+                                    |
+                                    <a class="btn btn-info pull-right m-rl-5"
+                                       href="#showModal=@Url.Page("./Index", "Details", new { id = item.Id})">
+                                        <i class="fa fa-edit"></i> Details
+                                    </a>
 
                                 </td>
                             </tr>
