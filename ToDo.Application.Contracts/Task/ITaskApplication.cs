@@ -13,4 +13,5 @@ public interface ITaskApplication
     Task<TaskViewModel> GetTask(long id);
     List<TaskViewModel> Search(TaskSearchModel searchModel);
     List<TaskViewModel> GetTasks();
+    System.Threading.Tasks.Task ToggleIsDone(long id, bool isDone);
 }

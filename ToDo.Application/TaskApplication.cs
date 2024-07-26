@@ -3,16 +3,13 @@ using ToDo.Application.Contracts.Task;
 using System.Collections.Generic;
 using ToDo.Domain.TaskAgg;
 using System.Threading.Tasks;
+using AppFramework.Domain;
+using System;
 
 namespace ToDo.Application;
-public class TaskApplication : ITaskApplication
+public class TaskApplication(ITaskRepository taskRepository) : ITaskApplication
 {
-    private readonly ITaskRepository _taskRepository;
-
-    public TaskApplication(ITaskRepository taskRepository)
-    {
-        _taskRepository = taskRepository;
-    }
+    private readonly ITaskRepository _taskRepository = taskRepository;
 
     public OperationResult Create(CreateTask command)
     {
@@ -62,4 +59,14 @@ public class TaskApplication : ITaskApplication
         return await _taskRepository.GetTask(id);
 
     }
+
+    public async Task ToggleIsDone(long id, bool isDone)
+    {
+        var task = await _taskRepository.GetAsync(id);
+        if (task == null) throw new Exception("Task not found");
+
+        task.IsDone = isDone;
+        await _taskRepository.SaveChangesAsync();
+    }
+
 }

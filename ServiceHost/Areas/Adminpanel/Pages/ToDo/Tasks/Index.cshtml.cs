@@ -77,4 +77,13 @@ public class IndexModel : PageModel
         var result = _taskApplication.Edit(command);
         return new JsonResult(result);
     }
+
+    public async Task<IActionResult> OnPostToggleDoneAsync([FromForm] long id, [FromForm] bool isDone)
+    {
+        await _taskApplication.ToggleIsDone(id, isDone);
+        return new JsonResult(new { success = true });
+    }
+
+
+
 }

@@ -1,4 +1,6 @@
-﻿@page
+﻿
+@page
+@Html.AntiForgeryToken()
 @model ServiceHost.Areas.Adminpanel.Pages.ToDo.Tasks.IndexModel
 @{
     Layout = "Shared/_DashboardLayout";
@@ -70,7 +72,14 @@
                             <tr class="@rowClass">
                                 <td>@item.Id</td>
                                 <td>@item.Title</td>
-                                <td>@item.IsDone</td>
+                                @* <td>@item.IsDone</td> *@
+                                <td>
+                                    <input type="checkbox"
+                                           class="form-check-input is-done-toggle"
+                                           data-id="@item.Id"
+                                    @(item.IsDone ? "checked" : "") />
+                                </td>
+
                                 <td>@item.TaskList</td>
                                 <td>@item.CreationDate</td>
                                 <td>

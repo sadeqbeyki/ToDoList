@@ -124,3 +124,33 @@ $(function () {
     });
 });
 
+//checkbox
+$(document).ready(function () {
+    const token = $('input[name="__RequestVerificationToken"]').val();
+
+    $(document).on("change", ".is-done-toggle", function () {
+        const id = $(this).data("id");
+        const isDone = $(this).is(":checked");
+
+        $.ajax({
+            url: "?handler=ToggleDone",
+            method: "POST",
+            headers: {
+                "RequestVerificationToken": token
+            },
+            data: {
+                id: id,
+                isDone: isDone
+            },
+            success: function () {
+                location.reload();
+            },
+            error: function (xhr) {
+                alert("خطای HTTP: " + xhr.status + " | بررسی سرور");
+            }
+        });
+    });
+});
+
+
+
