@@ -1,6 +1,4 @@
-﻿
-@page
-@Html.AntiForgeryToken()
+﻿@page
 @model ServiceHost.Areas.Adminpanel.Pages.ToDo.Tasks.IndexModel
 @{
     Layout = "Shared/_DashboardLayout";
@@ -103,3 +101,6 @@
     </div>
 </div>
 
+<form id="antiForgeryForm" style="display:none">
+    @Html.AntiForgeryToken()
+</form>

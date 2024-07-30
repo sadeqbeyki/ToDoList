@@ -124,33 +124,69 @@ $(function () {
     });
 });
 
-//checkbox
-$(document).ready(function () {
-    const token = $('input[name="__RequestVerificationToken"]').val();
+//is done checkbox  in index page
+//$(document).ready(function () {
+//    const token = $('input[name="__RequestVerificationToken"]').val();
 
+//    $(document).on("change", ".is-done-toggle", function () {
+//        const id = $(this).data("id");
+//        const isDone = $(this).is(":checked");
+
+//        $.ajax({
+//            url: "?handler=ToggleDone",
+//            method: "POST",
+//            headers: {
+//                "RequestVerificationToken": token
+//            },
+//            data: {
+//                id: id,
+//                isDone: isDone
+//            },
+//            success: function () {
+//                location.reload();
+//            },
+//            error: function (xhr) {
+//                alert("خطای HTTP: " + xhr.status + " | بررسی سرور");
+//            }
+//        });
+//    });
+//});
+
+//is done checkbox  in index page - full ajax
+$(document).ready(function () {
     $(document).on("change", ".is-done-toggle", function () {
-        const id = $(this).data("id");
-        const isDone = $(this).is(":checked");
+        const checkbox = $(this);
+        const id = checkbox.data("id");
+        const isDone = checkbox.is(":checked");
+
+        // گرفتن توکن از فرم
+        const token = $('input[name="__RequestVerificationToken"]').val();
 
         $.ajax({
             url: "?handler=ToggleDone",
             method: "POST",
-            headers: {
-                "RequestVerificationToken": token
-            },
             data: {
+                __RequestVerificationToken: token, // مهم
                 id: id,
                 isDone: isDone
             },
             success: function () {
-                location.reload();
+                // به‌جای رفرش کل صفحه، فقط ردیف را رنگی کن
+                const row = checkbox.closest("tr");
+                if (isDone)
+                    row.addClass("table-danger");
+                else
+                    row.removeClass("table-danger");
+
+                // پیام موفقیت (اختیاری)
+                // alert("وضعیت با موفقیت تغییر کرد");
             },
             error: function (xhr) {
-                alert("خطای HTTP: " + xhr.status + " | بررسی سرور");
+                alert("خطایی رخ داده است: " + xhr.status);
+                // برگردوندن چک‌باکس به حالت قبل در صورت خطا
+                checkbox.prop("checked", !isDone);
             }
         });
     });
 });
-
-
 
