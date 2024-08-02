@@ -70,12 +70,15 @@
                             <tr class="@rowClass">
                                 <td>@item.Id</td>
                                 <td>@item.Title</td>
-                                @* <td>@item.IsDone</td> *@
+
                                 <td>
-                                    <input type="checkbox"
-                                           class="form-check-input is-done-toggle"
-                                           data-id="@item.Id"
-                                    @(item.IsDone ? "checked" : "") />
+                                    <button class="toggle-done btn btn-sm rounded-circle shadow-sm transition"
+                                            data-id="@item.Id"
+                                            data-isdone="@item.IsDone"
+                                            style="width: 32px; height: 32px; padding: 0; background: transparent; border: none;"
+                                            title="تغییر وضعیت">
+                                        <i class="fa @(item.IsDone ? "fa-check text-success" : "fa-times text-danger") fa-lg transition"></i>
+                                    </button>
                                 </td>
 
                                 <td>@item.TaskList</td>

@@ -124,69 +124,51 @@ $(function () {
     });
 });
 
-//is done checkbox  in index page
-//$(document).ready(function () {
-//    const token = $('input[name="__RequestVerificationToken"]').val();
 
-//    $(document).on("change", ".is-done-toggle", function () {
-//        const id = $(this).data("id");
-//        const isDone = $(this).is(":checked");
 
-//        $.ajax({
-//            url: "?handler=ToggleDone",
-//            method: "POST",
-//            headers: {
-//                "RequestVerificationToken": token
-//            },
-//            data: {
-//                id: id,
-//                isDone: isDone
-//            },
-//            success: function () {
-//                location.reload();
-//            },
-//            error: function (xhr) {
-//                alert("خطای HTTP: " + xhr.status + " | بررسی سرور");
-//            }
-//        });
-//    });
-//});
+//is done checkbox  in index page -full ajax - with toast in left
 
-//is done checkbox  in index page - full ajax
-$(document).ready(function () {
-    $(document).on("change", ".is-done-toggle", function () {
-        const checkbox = $(this);
-        const id = checkbox.data("id");
-        const isDone = checkbox.is(":checked");
+$(document).on("click", ".toggle-done", function () {
+    const button = $(this);
+    const id = button.data("id");
 
-        // گرفتن توکن از فرم
-        const token = $('input[name="__RequestVerificationToken"]').val();
+    // تبدیل رشته به boolean
+    const currentStatus = button.data("isdone") === true || button.data("isdone") === "True" || button.data("isdone") === "true";
+    const newStatus = !currentStatus;
 
-        $.ajax({
-            url: "?handler=ToggleDone",
-            method: "POST",
-            data: {
-                __RequestVerificationToken: token, // مهم
-                id: id,
-                isDone: isDone
-            },
-            success: function () {
-                // به‌جای رفرش کل صفحه، فقط ردیف را رنگی کن
-                const row = checkbox.closest("tr");
-                if (isDone)
-                    row.addClass("table-danger");
-                else
-                    row.removeClass("table-danger");
+    const token = $('input[name="__RequestVerificationToken"]').val();
+    const icon = button.find("i");
 
-                // پیام موفقیت (اختیاری)
-                // alert("وضعیت با موفقیت تغییر کرد");
-            },
-            error: function (xhr) {
-                alert("خطایی رخ داده است: " + xhr.status);
-                // برگردوندن چک‌باکس به حالت قبل در صورت خطا
-                checkbox.prop("checked", !isDone);
-            }
-        });
+    icon.addClass("fa-spin");
+
+    $.ajax({
+        url: "?handler=ToggleDone",
+        method: "POST",
+        data: {
+            __RequestVerificationToken: token,
+            id: id,
+            isDone: newStatus
+        },
+        success: function () {
+            button.data("isdone", newStatus);
+
+            setTimeout(() => {
+                icon.removeClass("fa-spin");
+
+                if (newStatus) {
+                    icon.removeClass("fa-times text-danger").addClass("fa-check text-success");
+                    button.closest("tr").addClass("table-danger");
+                } else {
+                    icon.removeClass("fa-check text-success").addClass("fa-times text-danger");
+                    button.closest("tr").removeClass("table-danger");
+                }
+
+                toastr.success("وضعیت با موفقیت تغییر کرد");
+            }, 300);
+        },
+        error: function () {
+            icon.removeClass("fa-spin");
+            toastr.error("خطا در تغییر وضعیت");
+        }
     });
 });
-
