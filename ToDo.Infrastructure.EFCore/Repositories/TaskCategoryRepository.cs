@@ -3,7 +3,8 @@ using AppFramework.Infrastructure;
 using System.Collections.Generic;
 using System.Linq;
 using ToDo.Application.Contracts.TaskCategory;
-using ToDo.Domain.TaskCategoryAgg;
+using ToDo.Domain.Entities;
+using ToDo.Domain.Interfaces;
 using ToDo.Infrastructure.EFCore;
 
 namespace ToDo.Infrastructure.EFCore.Repositories

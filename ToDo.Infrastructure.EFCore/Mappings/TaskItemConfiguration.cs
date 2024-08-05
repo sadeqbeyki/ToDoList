@@ -1,6 +1,6 @@
-﻿using ToDo.Domain.TaskAgg;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using ToDo.Domain.Entities;
 
 namespace ToDo.Infrastructure.EFCore.Mappings;
 

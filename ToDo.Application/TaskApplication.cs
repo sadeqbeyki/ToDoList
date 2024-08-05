@@ -1,10 +1,10 @@
 ﻿using AppFramework.Application;
 using ToDo.Application.Contracts.Task;
 using System.Collections.Generic;
-using ToDo.Domain.TaskAgg;
 using System.Threading.Tasks;
 using AppFramework.Domain;
 using System;
+using ToDo.Domain.Interfaces;
 
 namespace ToDo.Application;
 public class TaskApplication(ITaskRepository taskRepository) : ITaskApplication
@@ -56,7 +56,7 @@ public class TaskApplication(ITaskRepository taskRepository) : ITaskApplication
 
     public async Task<TaskViewModel> GetTask(long id)
     {
-        return await _taskRepository.GetTask(id);
+        return await _taskRepository.GetTaskItem(id);
 
     }
 

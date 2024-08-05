@@ -1,8 +1,7 @@
 ﻿using AppFramework.Domain;
-using ToDo.Domain.TaskAgg;
 using System.Collections.Generic;
 
-namespace ToDo.Domain.TaskCategoryAgg;
+namespace ToDo.Domain.Entities;
 
 public class TaskList : EntityBase
 {

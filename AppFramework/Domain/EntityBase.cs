@@ -9,6 +9,6 @@ public class EntityBase
 
     public EntityBase()
     {
-        CreationDate = DateTime.Now;
+        CreationDate = DateTime.UtcNow;
     }
 }

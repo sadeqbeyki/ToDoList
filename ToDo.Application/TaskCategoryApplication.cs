@@ -1,7 +1,7 @@
 ﻿using AppFramework.Application;
 using System.Collections.Generic;
 using ToDo.Application.Contracts.TaskCategory;
-using ToDo.Domain.TaskCategoryAgg;
+using ToDo.Domain.Interfaces;
 
 namespace ToDo.Application
 {

@@ -5,7 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ToDo.Application.Contracts.Task;
-using ToDo.Domain.TaskAgg;
+using ToDo.Domain.Entities;
+using ToDo.Domain.Interfaces;
 
 namespace ToDo.Infrastructure.EFCore.Repositories;
 
@@ -44,7 +45,7 @@ public class TaskRepository : RepositoryBase<long, TaskItem>, ITaskRepository
         }).FirstOrDefault(x => x.Id == id);
     }
 
-    public async Task<TaskViewModel> GetTask(long id)
+    public async Task<TaskViewModel> GetTaskItem(long id)
     {
         return await _taskContext.TaskItems.Select(x => new TaskViewModel
         {

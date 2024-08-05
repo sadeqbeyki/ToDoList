@@ -1,10 +1,10 @@
 ﻿using AppQuery.Contracts.Task;
 using AppQuery.Contracts.TaskCategory;
-using ToDo.Domain.TaskAgg;
 using ToDo.Infrastructure.EFCore;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using ToDo.Domain.Entities;
 
 namespace AppQuery.Query;
 
