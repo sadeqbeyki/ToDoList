@@ -172,3 +172,69 @@ $(document).on("click", ".toggle-done", function () {
         }
     });
 });
+
+
+//2
+
+$(document).ready(function () {
+    // تنظیمات Toastr
+    toastr.options = {
+        "closeButton": true,
+        "positionClass": "toast-top-left",
+        "timeOut": "3000"
+    };
+
+    // هندل تغییر چک‌باکس
+    $(document).on("change", ".is-done-toggle", function () {
+        const checkbox = $(this);
+        const id = checkbox.data("id");
+        const isDone = checkbox.is(":checked");
+        const token = $('input[name="__RequestVerificationToken"]').val();
+
+        $.ajax({
+            url: "?handler=ToggleDone",
+            method: "POST",
+            data: {
+                __RequestVerificationToken: token,
+                id: id,
+                isDone: isDone
+            },
+            success: function () {
+                const row = checkbox.closest("tr");
+                row.toggleClass("table-danger", isDone);
+                toastr.success("وضعیت وظیفه با موفقیت تغییر کرد");
+            },
+            error: function () {
+                checkbox.prop("checked", !isDone);
+                toastr.error("خطا در تغییر وضعیت. لطفاً دوباره تلاش کنید.");
+            }
+        });
+    });
+});
+
+//checkBox Configuration
+$(document).ready(function () {
+    const viewModeKey = "taskViewMode";
+
+    // خواندن مقدار اولیه از localStorage یا تنظیم پیش‌فرض
+    const savedViewMode = localStorage.getItem(viewModeKey) || "icon";
+    $("#viewModeSelector").val(savedViewMode);
+    toggleViewMode(savedViewMode);
+
+    // تغییر حالت توسط کاربر
+    $("#viewModeSelector").on("change", function () {
+        const selected = $(this).val();
+        localStorage.setItem(viewModeKey, selected);
+        toggleViewMode(selected);
+    });
+
+    function toggleViewMode(mode) {
+        if (mode === "checkbox") {
+            $(".icon-mode").hide();
+            $(".checkbox-mode").show();
+        } else {
+            $(".checkbox-mode").hide();
+            $(".icon-mode").show();
+        }
+    }
+});

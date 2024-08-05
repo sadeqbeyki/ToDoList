@@ -1,4 +1,4 @@
-html {
+﻿html {
   font-size: 14px;
 }
 
@@ -20,3 +20,29 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+/*check box style */
+/* دکمه آیکونی ✔/✖ */
+.toggle-done-btn {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    background: transparent;
+    border: none;
+}
+
+/* چک‌باکس سفارشی */
+.custom-checkbox {
+    margin-top: 3px;
+}
+
+/* نمایش یا پنهان‌سازی با کلاس */
+.icon-mode {
+    display: inline-block;
+}
+
+.checkbox-mode {
+    display: none;
+}
+
+
