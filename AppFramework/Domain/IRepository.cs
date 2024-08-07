@@ -7,12 +7,9 @@ namespace AppFramework.Domain;
 
 public interface IRepository<TKey, T> where T : class
 {
-    T Get(TKey id);
     Task<T> GetAsync(TKey id);
-
-    List<T> Get();
-    void Create(T Entity);
-    bool Exists(Expression<Func<T, bool>> expresstion);
-    void SaveChanges();
+    Task<List<T>> GetAllAsync();
+    Task Create(T Entity);
+    Task<bool> Exists(Expression<Func<T, bool>> expresstion);
     Task SaveChangesAsync();
 }

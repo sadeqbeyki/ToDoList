@@ -19,14 +19,14 @@ public class TaskRepository : RepositoryBase<long, TaskItem>, ITaskRepository
         _taskContext = taskContext;
     }
 
-    public List<TaskViewModel> GetTasks()
+    public async Task<List<TaskViewModel>> GetAllAsync()
     {
-        return _taskContext.TaskItems.Select(x => new TaskViewModel
+        return await _taskContext.TaskItems.Select(x => new TaskViewModel
         {
             Id = x.Id,
             Title = x.Title,
             CreationDate = x.CreationDate.ToFarsi()
-        }).ToList();
+        }).ToListAsync();
     }
 
     public TaskItem GetTaskWithCategory(long id)
@@ -45,7 +45,7 @@ public class TaskRepository : RepositoryBase<long, TaskItem>, ITaskRepository
         }).FirstOrDefault(x => x.Id == id);
     }
 
-    public async Task<TaskViewModel> GetTaskItem(long id)
+    public async Task<TaskViewModel> GetByIdAsync(long id)
     {
         return await _taskContext.TaskItems.Select(x => new TaskViewModel
         {

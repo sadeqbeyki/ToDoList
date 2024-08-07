@@ -41,7 +41,7 @@ public class TaskApplication(ITaskRepository taskRepository) : ITaskApplication
 
     public List<TaskViewModel> GetTasks()
     {
-        return _taskRepository.GetTasks();
+        return _taskRepository.GetAllAsync();
     }
 
     public EditTask GetDetails(long id)
@@ -56,7 +56,7 @@ public class TaskApplication(ITaskRepository taskRepository) : ITaskApplication
 
     public async Task<TaskViewModel> GetTask(long id)
     {
-        return await _taskRepository.GetTaskItem(id);
+        return await _taskRepository.GetByIdAsync(id);
 
     }
 

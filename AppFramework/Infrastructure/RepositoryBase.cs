@@ -17,34 +17,20 @@ public class RepositoryBase<TKey, T> : IRepository<TKey, T> where T : class
         _context = context;
     }
 
-    public void Create(T entity)
+    public async Task Create(T entity)
     {
-        _context.Add(entity);
+        await _context.AddAsync(entity);
     }
 
-    public bool Exists(Expression<Func<T, bool>> expresstion)
+    public async Task<bool> Exists(Expression<Func<T, bool>> expresstion)
     {
-        return _context.Set<T>().Any(expresstion);
+        return await _context.Set<T>().AnyAsync(expresstion);
     }
 
-    public T Get(TKey id)
-    {
-        return _context.Find<T>(id);
-    }
 
-    public List<T> Get()
+    public async Task<List<T>> GetAllAsync()
     {
-        return _context.Set<T>().ToList();
-    }
-
-    public void SaveChanges()
-    {
-        var entries = _context.ChangeTracker.Entries();
-        foreach (var entry in entries)
-        {
-            Console.WriteLine($"Entity: {entry.Entity.GetType().Name}, State: {entry.State}");
-        }
-        _context.SaveChanges();
+        return await _context.Set<T>().ToListAsync();
     }
 
     public async Task<T> GetAsync(TKey id)
@@ -61,6 +47,5 @@ public class RepositoryBase<TKey, T> : IRepository<TKey, T> where T : class
         }
         await _context.SaveChangesAsync();
     }
-
 
 }
