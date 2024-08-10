@@ -19,7 +19,7 @@ public class TaskRepository : RepositoryBase<long, TaskItem>, ITaskRepository
         _taskContext = taskContext;
     }
 
-    public async Task<List<TaskViewModel>> GetAllAsync()
+    public async Task<List<TaskViewModel>> GetAllTaskItem()
     {
         return await _taskContext.TaskItems.Select(x => new TaskViewModel
         {
@@ -29,31 +29,20 @@ public class TaskRepository : RepositoryBase<long, TaskItem>, ITaskRepository
         }).ToListAsync();
     }
 
-    public TaskItem GetTaskWithCategory(long id)
+    public async Task<TaskItem> GetTaskItemWithTaskList(long id)
     {
-        return _taskContext.TaskItems.Include(x => x.TaskList).FirstOrDefault(x => x.Id == id);
+        return await _taskContext.TaskItems.Include(x => x.TaskList).FirstOrDefaultAsync(x => x.Id == id);
     }
 
-    public EditTask GetDetails(long id)
+    public async Task<EditTask> GetTaskItemById(long id)
     {
-        return _taskContext.TaskItems.Select(x => new EditTask
-        {
-            Id = x.Id,
-            Title = x.Title,
-            TaskListId = x.TaskListId,
-            Description = x.Description
-        }).FirstOrDefault(x => x.Id == id);
-    }
-
-    public async Task<TaskViewModel> GetByIdAsync(long id)
-    {
-        return await _taskContext.TaskItems.Select(x => new TaskViewModel
+        return await _taskContext.TaskItems.Select(x => new EditTask
         {
             Id = x.Id,
             Title = x.Title,
             IsDone = x.IsDone,
-            Description = x.Description,
-            TaskListId = x.TaskListId
+            TaskListId = x.TaskListId,
+            Description = x.Description
         }).FirstOrDefaultAsync(x => x.Id == id);
     }
 

@@ -26,7 +26,7 @@ public class TaskApplication(ITaskRepository taskRepository) : ITaskApplication
     public OperationResult Edit(EditTask command)
     {
         var operation = new OperationResult();
-        var task = _taskRepository.GetTaskWithCategory(command.Id);
+        var task = _taskRepository.GetTaskItemWithTaskList(command.Id);
         if (task == null)
             return operation.Failed(ApplicationMessages.RecordNotFound);
 
@@ -41,12 +41,12 @@ public class TaskApplication(ITaskRepository taskRepository) : ITaskApplication
 
     public List<TaskViewModel> GetTasks()
     {
-        return _taskRepository.GetAllAsync();
+        return _taskRepository.GetAllTaskItem();
     }
 
     public EditTask GetDetails(long id)
     {
-        return _taskRepository.GetDetails(id);
+        return _taskRepository.GetTaskItemById(id);
     }
 
     public List<TaskViewModel> Search(TaskSearchModel searchModel)
