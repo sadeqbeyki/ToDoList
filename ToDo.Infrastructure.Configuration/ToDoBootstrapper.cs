@@ -1,11 +1,11 @@
 ﻿using ToDo.Application;
-using ToDo.Application.Contracts.Task;
-using ToDo.Application.Contracts.TaskCategory;
 using ToDo.Infrastructure.EFCore.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using ToDo.Infrastructure.EFCore;
 using ToDo.Domain.Interfaces;
+using ToDo.Application.Contracts.TaskItem;
+using ToDo.Application.Contracts.TaskList;
 
 namespace ToDo.Infrastructure.Configuration
 {

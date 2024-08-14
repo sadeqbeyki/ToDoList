@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using ToDo.Application.Contracts.TaskCategory;
+using ToDo.Application.Contracts.TaskList;
 
-namespace ToDo.Application.Contracts.Task;
+namespace ToDo.Application.Contracts.TaskItem;
 public class CreateTask
 {
     public string Title { get; set; }

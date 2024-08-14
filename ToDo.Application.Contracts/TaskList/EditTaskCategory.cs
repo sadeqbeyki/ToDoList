@@ -1,4 +1,4 @@
-﻿namespace ToDo.Application.Contracts.TaskCategory
+﻿namespace ToDo.Application.Contracts.TaskList
 {
     public class EditTaskCategory : CreateTaskCategory
     {

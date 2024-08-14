@@ -1,60 +1,56 @@
 ﻿using AppFramework.Application;
 using System.Collections.Generic;
-using ToDo.Application.Contracts.TaskCategory;
+using System.Threading.Tasks;
+using ToDo.Application.Contracts.TaskList;
+using ToDo.Domain.Entities;
 using ToDo.Domain.Interfaces;
 
-namespace ToDo.Application
+namespace ToDo.Application;
+
+public class TaskCategoryApplication(ITaskCategoryRepository taskCategoryRepository) : ITaskCategoryApplication
 {
-    public class TaskCategoryApplication : ITaskCategoryApplication
+    private readonly ITaskCategoryRepository _taskCategoryRepository = taskCategoryRepository;
+
+    public async Task<OperationResult> Create(CreateTaskCategory command)
     {
-        private readonly ITaskCategoryRepository _taskCategoryRepository;
+        var operation = new OperationResult();
+        if (await _taskCategoryRepository.Exists(x => x.Name == command.Name))
+            return operation.Failed(ApplicationMessages.DuplicatedRecord);
 
-        public TaskCategoryApplication(ITaskCategoryRepository taskCategoryRepository)
-        {
-            _taskCategoryRepository = taskCategoryRepository;
-        }
+        var taskCategory = new TaskList(command.Name, command.Description);
+        await _taskCategoryRepository.Create(taskCategory);
+        await _taskCategoryRepository.SaveChangesAsync();
+        return operation.Succeeded();
+    }
 
-        public OperationResult Create(CreateTaskCategory command)
-        {
-            var operation = new OperationResult();
-            if (_taskCategoryRepository.Exists(x => x.Name == command.Name))
-                return operation.Failed(ApplicationMessages.DuplicatedRecord);
+    public async Task<OperationResult> Edit(EditTaskCategory command)
+    {
+        var operation = new OperationResult();
+        var taskCategory = await _taskCategoryRepository.GetAsync(command.Id);
+        if (taskCategory == null)
+            return operation.Failed(ApplicationMessages.RecordNotFound);
 
-            var taskCategory = new TaskList(command.Name, command.Description);
-            _taskCategoryRepository.Create(taskCategory);
-            _taskCategoryRepository.SaveChanges();
-            return operation.Succeeded();
-        }
+        if (await _taskCategoryRepository.Exists(x => x.Name == command.Name && x.Id != command.Id))
+            return operation.Failed(ApplicationMessages.DuplicatedRecord);
 
-        public OperationResult Edit(EditTaskCategory command)
-        {
-            var operation = new OperationResult();
-            var taskCategory = _taskCategoryRepository.Get(command.Id);
-            if (taskCategory == null)
-                return operation.Failed(ApplicationMessages.RecordNotFound);
+        taskCategory.Edit(command.Name, command.Description);
+        await _taskCategoryRepository.SaveChangesAsync();
+        return operation.Succeeded();
+    }
 
-            if (_taskCategoryRepository.Exists(x => x.Name == command.Name && x.Id != command.Id))
-                return operation.Failed(ApplicationMessages.DuplicatedRecord);
+    public async Task<List<TaskCategoryViewModel>> GetTaskList()
+    {
+        return await _taskCategoryRepository.GetTaskCategories();
+    }
 
-            taskCategory.Edit(command.Name, command.Description);
-            _taskCategoryRepository.SaveChanges();
-            return operation.Succeeded();
-        }
-
-        public List<TaskCategoryViewModel> GetTaskList()
-        {
-            return _taskCategoryRepository.GetTaskCategories();
-        }
-
-        public EditTaskCategory GetDetails(long id)
-        {
-            return _taskCategoryRepository.GetDetails(id);
-        }
+    public async Task<EditTaskCategory> GetDetails(long id)
+    {
+        return await _taskCategoryRepository.GetDetails(id);
+    }
 
 
-        public List<TaskCategoryViewModel> Search(TaskCategorySearchModel searchModel)
-        {
-            return _taskCategoryRepository.Search(searchModel);
-        }
+    public List<TaskCategoryViewModel> Search(TaskCategorySearchModel searchModel)
+    {
+        return _taskCategoryRepository.Search(searchModel);
     }
 }

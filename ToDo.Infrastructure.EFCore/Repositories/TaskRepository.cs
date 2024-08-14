@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ToDo.Application.Contracts.Task;
+using ToDo.Application.Contracts.TaskItem;
 using ToDo.Domain.Entities;
 using ToDo.Domain.Interfaces;
 

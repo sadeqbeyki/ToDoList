@@ -1,4 +1,4 @@
-﻿@model TaskViewModel
+﻿@model EditTask
 @{
     ViewData["Title"] = "Update Task";
 }
@@ -18,7 +18,7 @@
             <li class="list-group-item"><strong>Is Done:</strong> @(Model.IsDone ? "Yes" : "No")</li>
             <li class="list-group-item"><strong>Description:</strong> @Model.Description</li>
             <li class="list-group-item"><strong>List Id:</strong> @Model.TaskListId</li>
-            <li class="list-group-item"><strong>Creation Date:</strong> @Model.CreationDate</li>
+            @* <li class="list-group-item"><strong>Creation Date:</strong> @Model.CreationDate</li> *@
         </ul>
     </div>
 

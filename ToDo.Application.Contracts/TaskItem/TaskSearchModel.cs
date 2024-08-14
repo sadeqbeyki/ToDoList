@@ -1,4 +1,4 @@
-﻿namespace ToDo.Application.Contracts.Task;
+﻿namespace ToDo.Application.Contracts.TaskItem;
 
 public class TaskSearchModel
 {

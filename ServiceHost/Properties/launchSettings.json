@@ -3,7 +3,8 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:23972",
+      "applicationUrl": "http://localhost:23972/Adminpanel/ToDo/Tasks",
+      //"applicationUrl": "http://localhost:23972",
       "sslPort": 44335
     }
   },
