@@ -1,25 +1,27 @@
-﻿using ToDo.Application;
-using ToDo.Infrastructure.EFCore.Repositories;
+﻿using ToDo.Infrastructure.EFCore.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using ToDo.Infrastructure.EFCore;
 using ToDo.Domain.Interfaces;
-using ToDo.Application.Contracts.TaskItem;
-using ToDo.Application.Contracts.TaskList;
+using ToDo.Application.Services;
+using ToDo.Application.Interfaces;
+using ToDo.Application.Mapper;
 
-namespace ToDo.Infrastructure.Configuration
+namespace ToDo.Infrastructure.Configuration;
+
+public class ToDoBootstrapper
 {
-    public class ToDoBootstrapper
+    public static void Configure(IServiceCollection services, string connectionString)
     {
-        public static void Configure(IServiceCollection services, string connectionString)
-        {
-            services.AddTransient<ITaskCategoryApplication, TaskCategoryApplication>();
-            services.AddTransient<ITaskCategoryRepository, TaskCategoryRepository>();
+        services.AddTransient<ITaskListService, TaskListService>();
+        services.AddTransient<ITaskListRepository, TaskListRepository>();
 
-            services.AddTransient<ITaskApplication, TaskApplication>();
-            services.AddTransient<ITaskRepository, TaskRepository>();
+        services.AddTransient<ITaskService, TaskItemService>();
+        services.AddTransient<ITaskRepository, TaskRepository>();
 
-            services.AddDbContext<ToDoContext>(x => x.UseSqlServer(connectionString));
-        }
+        services.AddAutoMapper(typeof(MappingProfile));
+
+
+        services.AddDbContext<ToDoContext>(x => x.UseSqlServer(connectionString));
     }
 }

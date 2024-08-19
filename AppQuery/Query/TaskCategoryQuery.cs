@@ -19,7 +19,7 @@ public class TaskCategoryQuery : ITaskCategoryQuery
 
     public List<TaskCategoryQueryModel> GetTaskCategories()
     {
-        return _todoContext.TaskList.Select(x => new TaskCategoryQueryModel
+        return _todoContext.TaskLists.Select(x => new TaskCategoryQueryModel
         {
             Id = x.Id,
             Name = x.Name
@@ -28,7 +28,7 @@ public class TaskCategoryQuery : ITaskCategoryQuery
 
     public List<TaskCategoryQueryModel> GetTaskCategoriesWithTasks()
     {
-        var categories = _todoContext.TaskList.Include(x => x.TaskItems).ThenInclude(x => x.TaskList)
+        var categories = _todoContext.TaskLists.Include(x => x.TaskItems).ThenInclude(x => x.TaskList)
             .Select(x => new TaskCategoryQueryModel
             {
                 Id=x.Id,

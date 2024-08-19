@@ -1,17 +1,22 @@
 ﻿using AppFramework.Application;
+using AppFramework.Domain;
+using AutoMapper;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using ToDo.Application.Contracts.TaskList;
+using ToDo.Application.DTOs.TaskItems;
+using ToDo.Application.DTOs.TaskLists;
+using ToDo.Application.Interfaces;
 using ToDo.Domain.Entities;
 using ToDo.Domain.Interfaces;
 
-namespace ToDo.Application;
+namespace ToDo.Application.Services;
 
-public class TaskCategoryApplication(ITaskCategoryRepository taskCategoryRepository) : ITaskCategoryApplication
+public class TaskListService(ITaskListRepository taskCategoryRepository, IMapper mapper) : ITaskListService
 {
-    private readonly ITaskCategoryRepository _taskCategoryRepository = taskCategoryRepository;
+    private readonly ITaskListRepository _taskCategoryRepository = taskCategoryRepository;
+    private readonly IMapper _mapper = mapper;
 
-    public async Task<OperationResult> Create(CreateTaskCategory command)
+    public async Task<OperationResult> Create(CreateTaskListDto command)
     {
         var operation = new OperationResult();
         if (await _taskCategoryRepository.Exists(x => x.Name == command.Name))
@@ -23,7 +28,7 @@ public class TaskCategoryApplication(ITaskCategoryRepository taskCategoryReposit
         return operation.Succeeded();
     }
 
-    public async Task<OperationResult> Edit(EditTaskCategory command)
+    public async Task<OperationResult> Edit(EditTaskListDto command)
     {
         var operation = new OperationResult();
         var taskCategory = await _taskCategoryRepository.GetAsync(command.Id);
@@ -38,19 +43,24 @@ public class TaskCategoryApplication(ITaskCategoryRepository taskCategoryReposit
         return operation.Succeeded();
     }
 
-    public async Task<List<TaskCategoryViewModel>> GetTaskList()
+    public async Task<List<TaskListDto>> GetAllTaskList()
     {
-        return await _taskCategoryRepository.GetTaskCategories();
+        var list = await _taskCategoryRepository.GetAllTaskLists();
+        return _mapper.Map<List<TaskListDto>>(list);
     }
 
-    public async Task<EditTaskCategory> GetDetails(long id)
+    public async Task<TaskListDto> GetDetails(long id)
     {
-        return await _taskCategoryRepository.GetDetails(id);
+        var entity = await _taskCategoryRepository.GetAsync(id);
+        return _mapper.Map<TaskListDto>(entity);
     }
 
 
-    public List<TaskCategoryViewModel> Search(TaskCategorySearchModel searchModel)
+    public async Task<List<TaskListDto>> Search(SearchTaskListDto filter)
     {
-        return _taskCategoryRepository.Search(searchModel);
+        var searchModel =  _mapper.Map<TaskList>(filter);
+
+        var result = _taskCategoryRepository.Search(searchModel);
+        return  _mapper.Map<List<TaskListDto>>(result);
     }
 }

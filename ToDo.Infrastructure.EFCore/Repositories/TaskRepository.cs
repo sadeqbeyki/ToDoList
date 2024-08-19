@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ToDo.Application.Contracts.TaskItem;
 using ToDo.Domain.Entities;
 using ToDo.Domain.Interfaces;
 
@@ -19,52 +18,58 @@ public class TaskRepository : RepositoryBase<long, TaskItem>, ITaskRepository
         _taskContext = taskContext;
     }
 
-    public async Task<List<TaskViewModel>> GetAllTaskItem()
-    {
-        return await _taskContext.TaskItems.Select(x => new TaskViewModel
-        {
-            Id = x.Id,
-            Title = x.Title,
-            CreationDate = x.CreationDate.ToFarsi()
-        }).ToListAsync();
-    }
+
+    public async Task<List<TaskItem>> GetAllTaskItem()
+        => await _taskContext.TaskItems.ToListAsync();
+
+    public async Task<TaskItem> GetTaskItemById(long id)
+        => await _taskContext.TaskItems
+                 .FirstOrDefaultAsync(x => x.Id == id);
 
     public async Task<TaskItem> GetTaskItemWithTaskList(long id)
+    => await _taskContext.TaskItems
+                     .Include(t => t.TaskList)
+                     .FirstOrDefaultAsync(t => t.Id == id);
+
+
+    public async Task<List<TaskItem>> Search(TaskItem searchModel)
     {
-        return await _taskContext.TaskItems.Include(x => x.TaskList).FirstOrDefaultAsync(x => x.Id == id);
-    }
+        var query = _taskContext.TaskItems.AsQueryable();
 
-    public async Task<EditTask> GetTaskItemById(long id)
-    {
-        return await _taskContext.TaskItems.Select(x => new EditTask
-        {
-            Id = x.Id,
-            Title = x.Title,
-            IsDone = x.IsDone,
-            TaskListId = x.TaskListId,
-            Description = x.Description
-        }).FirstOrDefaultAsync(x => x.Id == id);
-    }
+        if (!string.IsNullOrWhiteSpace(searchModel.Title))
+            query = query.Where(x => x.Title.Contains(searchModel.Title));
 
-    public List<TaskViewModel> Search(TaskSearchModel searchModel)
-    {
-        var query = _taskContext.TaskItems.Include(x => x.TaskList).Select(x => new TaskViewModel
-        {
-            Id = x.Id,
-            Title = x.Title,
-            IsDone = x.IsDone,
-            TaskListId = x.TaskListId,
-            TaskList = x.TaskList.Name,
-            CreationDate = x.CreationDate.ToFarsi()
-        });
+        //if (!string.IsNullOrWhiteSpace(searchModel.Description))
+        //    query = query.Where(x => x.Description.Contains(searchModel.Description));
 
-        if (!string.IsNullOrWhiteSpace(searchModel.Name))
-            query = query.Where(x => x.Title.Contains(searchModel.Name));
+        if (searchModel.IsDone)
+            query = query.Where(x => x.IsDone == true);
 
-        if (searchModel.TaskListId != 0)
+        if (searchModel.TaskListId > 0)
             query = query.Where(x => x.TaskListId == searchModel.TaskListId);
 
-        return query.OrderByDescending(x => x.Id).ToList();
+        return await query.ToListAsync();
     }
+
+    //public List<TaskItem> Search(TaskItem searchModel)
+    //{
+    //    var query = _taskContext.TaskItems.Include(x => x.TaskList).Select(x => new TaskViewModel
+    //    {
+    //        Id = x.Id,
+    //        Title = x.Title,
+    //        IsDone = x.IsDone,
+    //        TaskListId = x.TaskListId,
+    //        TaskList = x.TaskList.Name,
+    //        CreationDate = x.CreationDate.ToFarsi()
+    //    });
+
+    //    if (!string.IsNullOrWhiteSpace(searchModel.Name))
+    //        query = query.Where(x => x.Title.Contains(searchModel.Name));
+
+    //    if (searchModel.TaskListId != 0)
+    //        query = query.Where(x => x.TaskListId == searchModel.TaskListId);
+
+    //    return query.OrderByDescending(x => x.Id).ToList();
+    //}
 
 }

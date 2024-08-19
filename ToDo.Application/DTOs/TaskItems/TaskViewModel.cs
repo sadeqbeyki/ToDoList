@@ -1,4 +1,4 @@
-﻿namespace ToDo.Application.Contracts.TaskItem;
+﻿namespace ToDo.Application.DTOs.TaskItems;
 
 public class TaskViewModel
 {

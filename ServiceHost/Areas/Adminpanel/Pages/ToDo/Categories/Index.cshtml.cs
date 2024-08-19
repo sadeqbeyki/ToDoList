@@ -1,31 +1,32 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Collections.Generic;
-using ToDo.Application.Contracts.TaskList;
+using ToDo.Application.DTOs.TaskLists;
+using ToDo.Application.Interfaces;
 
 namespace ServiceHost.Areas.Adminpanel.Pages.ToDo.Categories;
 
 public class IndexModel : PageModel
 {
-    public TaskCategorySearchModel SearchModel;
-    public List<TaskCategoryViewModel> TaskCategories;
-    private readonly ITaskCategoryApplication _taskCategoryApplication;
+    public SearchTaskListDto SearchModel;
+    public List<TaskListViewModel> TaskCategories;
+    private readonly ITaskListService _taskCategoryApplication;
 
-    public IndexModel(ITaskCategoryApplication taskCategoryApplication)
+    public IndexModel(ITaskListService taskCategoryApplication)
     {
         _taskCategoryApplication = taskCategoryApplication;
     }
 
-    public void OnGet(TaskCategorySearchModel searchModel)
+    public void OnGet(SearchTaskListDto searchModel)
     {
         TaskCategories = _taskCategoryApplication.Search(searchModel);
     }
     public PartialViewResult OnGetCreate()
     {
-        return Partial("./Create", new CreateTaskCategory());
+        return Partial("./Create", new CreateTaskList());
     }
 
-    public JsonResult OnPostCreate(CreateTaskCategory command)
+    public JsonResult OnPostCreate(CreateTaskList command)
     {
         var result = _taskCategoryApplication.Create(command);
         return new JsonResult(result);
@@ -36,7 +37,7 @@ public class IndexModel : PageModel
         var taskCategory = _taskCategoryApplication.GetDetails(id);
         return Partial("Edit", taskCategory);
     }
-    public IActionResult OnPostEdit(EditTaskCategory command)
+    public IActionResult OnPostEdit(EditTaskList command)
     {
         var result = _taskCategoryApplication.Edit(command);
         return new JsonResult(result);
