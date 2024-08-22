@@ -9,6 +9,7 @@ using ToDo.Application.DTOs.TaskItems;
 using System.Linq;
 using ToDo.Application.Interfaces;
 using AutoMapper;
+using ToDo.Domain.Models;
 
 namespace ToDo.Application.Services;
 public class TaskItemService(ITaskRepository taskRepository, IMapper mapper) : ITaskService
@@ -73,16 +74,28 @@ public class TaskItemService(ITaskRepository taskRepository, IMapper mapper) : I
     }
 
 
-    public async Task<List<TaskItemDto>> Search(SearchTaskItemDto filter)
+    public async Task<List<TaskItemDto>> SearchAsync(SearchTaskItemDto filter)
     {
-        var searchModel = _mapper.Map<TaskItem>(filter);
+        var searchModel = new TaskItemSearchModel
+        {
+            Title = filter.Title,
+            IsDone = filter.IsDone,
+            TaskListId = filter.TaskListId
+        };
 
-        if (filter.IsDone == true)
-            searchModel.MarkDone(); // چون در map به false رفته، ما هم روشنش می‌کنیم اگر نیاز بود
+        var query = await _taskRepository.SearchAsync(searchModel);
 
-        var result = _taskRepository.Search(searchModel);
+        return [.. query.Select(x => new TaskItemDto
+        {
+            Id = x.Id,
+            Title = x.Title,
+            Description = x.Description,
+            IsDone = x.IsDone,
+            TaskListTitle = x.TaskList?.Name,
+            TaskListId = x.TaskListId,
+            CreationDate = x.CreationDate.ToFarsi(),
+        }).OrderByDescending(x => x.CreationDate)];
 
-        return _mapper.Map<List<TaskItemDto>>(result);
     }
 
 

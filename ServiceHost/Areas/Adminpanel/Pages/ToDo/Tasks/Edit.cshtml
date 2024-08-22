@@ -1,10 +1,11 @@
-﻿@model EditTaskItemDto
+﻿@using ServiceHost.Areas.Adminpanel.Pages.ToDo.Tasks.ViewModels
+@model EditTaskViewModel
 @{
     ViewData["Title"] = "Update Task";
 }
 
 <div class="modal-header">
-    <h4 class="modal-title">@ViewData["Title"]: @Model.Title</h4>
+    <h4 class="modal-title">@ViewData["Title"]: @Model.Task.Title</h4>
     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
 
@@ -18,33 +19,33 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label asp-for="Title" class="control-label">Title</label>
-                    <input type="text" class="form-control" asp-for="Title" />
-                    <span asp-validation-for="Title" class="error"></span>
+                    <label asp-for="Task.Title" class="control-label">Title</label>
+                    <input type="text" class="form-control" asp-for="Task.Title" />
+                    <span asp-validation-for="Task.Title" class="error"></span>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group form-check">
-                    <input type="checkbox" class="form-check-input" asp-for="IsDone">
-                    <input type="hidden" asp-for="IsDone" />
-                    <label asp-for="IsDone" class="form-check-label">Is Done?</label>
+                    <input type="checkbox" class="form-check-input" asp-for="Task.IsDone">
+                    <input type="hidden" asp-for="Task.IsDone" />
+                    <label asp-for="Task.IsDone" class="form-check-label">Is Done?</label>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group">
-                    <label asp-for="TaskListId" class="control-label">List Name</label>
-                    <select class="form-control" asp-for="TaskListId" 
-                        asp-items='new SelectList(Model.TaskList, "Id", "Name")'>
+                    <label asp-for="Task.TaskListId" class="control-label">List Name</label>
+                    <select class="form-control" asp-for="Task.TaskListId"
+                            asp-items='new SelectList(Model.TaskLists, "Id", "Name")'>
                         <option value="">List Name</option>
                     </select>
-                    <span asp-validation-for="TaskListId" class="error"></span>
+                    <span asp-validation-for="Task.TaskListId" class="error"></span>
                 </div>
             </div>
         </div>
         
-        <input type="hidden" asp-for="Id" value="@Model.Id" />
+        <input type="hidden" asp-for="Task.Id" value="@Model.Task.Id" />
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

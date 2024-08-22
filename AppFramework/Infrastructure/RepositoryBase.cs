@@ -11,10 +11,21 @@ namespace AppFramework.Infrastructure;
 public class RepositoryBase<TKey, T> : IRepository<TKey, T> where T : class
 {
     private readonly DbContext _context;
+    private readonly DbSet<T> _dbSet;
 
     public RepositoryBase(DbContext context)
     {
         _context = context;
+        _dbSet = context.Set<T>();
+    }
+    public IQueryable<T> GetAll()
+    {
+        return _dbSet.AsQueryable();
+    }
+
+    public async Task<List<T>> GetAllAsync()
+    {
+        return await _context.Set<T>().ToListAsync();
     }
 
     public async Task Create(T entity)
@@ -28,10 +39,6 @@ public class RepositoryBase<TKey, T> : IRepository<TKey, T> where T : class
     }
 
 
-    public async Task<List<T>> GetAllAsync()
-    {
-        return await _context.Set<T>().ToListAsync();
-    }
 
     public async Task<T> GetAsync(TKey id)
     {

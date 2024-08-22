@@ -7,8 +7,10 @@ public class TaskItem : EntityBase
     public string Title { get; set; }
     public string Description { get; set; }
     public bool IsDone { get; set; } = false;
-    public long TaskListId { get; private set; }
+    public long TaskListId { get; set; }
     public TaskList TaskList { get; private set; }
+
+    public TaskItem() { }
 
     public TaskItem(string title, string description, long taskListId)
     {

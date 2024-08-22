@@ -4,8 +4,10 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ToDo.Application.DTOs.TaskItem;
 using ToDo.Domain.Entities;
 using ToDo.Domain.Interfaces;
+using ToDo.Domain.Models;
 
 namespace ToDo.Infrastructure.EFCore.Repositories;
 
@@ -32,23 +34,25 @@ public class TaskRepository : RepositoryBase<long, TaskItem>, ITaskRepository
                      .FirstOrDefaultAsync(t => t.Id == id);
 
 
-    public async Task<List<TaskItem>> Search(TaskItem searchModel)
+    public async Task<List<TaskItem>> SearchAsync(TaskItemSearchModel filter)
     {
-        var query = _taskContext.TaskItems.AsQueryable();
+        var query = _taskContext.TaskItems
+            .Include(x => x.TaskList)
+             .AsQueryable();
+        //var query = _taskContext.TaskItems.AsQueryable();
 
-        if (!string.IsNullOrWhiteSpace(searchModel.Title))
-            query = query.Where(x => x.Title.Contains(searchModel.Title));
+        if (!string.IsNullOrWhiteSpace(filter.Title))
+            query = query.Where(x => x.Title.Contains(filter.Title));
 
-        //if (!string.IsNullOrWhiteSpace(searchModel.Description))
-        //    query = query.Where(x => x.Description.Contains(searchModel.Description));
+        if (filter.TaskListId > 0)
+            query = query.Where(x => x.TaskListId == filter.TaskListId);
 
-        if (searchModel.IsDone)
-            query = query.Where(x => x.IsDone == true);
+        //if (filter.IsDone.HasValue)
+        //    query = query.Where(x => x.IsDone == filter.IsDone.HasValue);
 
-        if (searchModel.TaskListId > 0)
-            query = query.Where(x => x.TaskListId == searchModel.TaskListId);
-
-        return await query.ToListAsync();
+        return await query
+            .OrderByDescending(x => x.CreationDate)
+            .ToListAsync();
     }
 
     //public List<TaskItem> Search(TaskItem searchModel)

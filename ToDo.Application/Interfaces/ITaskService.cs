@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using ToDo.Application.DTOs.TaskItem;
 using ToDo.Application.DTOs.TaskItems;
+using ToDo.Domain.Entities;
 
 namespace ToDo.Application.Interfaces;
 
@@ -15,7 +16,7 @@ public interface ITaskService
     Task<OperationResult> Create(CreateTaskDto command);
     Task<OperationResult> Edit(EditTaskDto command);
 
-    Task<List<TaskItemDto>> Search(SearchTaskItemDto searchModel);
+    Task<List<TaskItemDto>> SearchAsync(SearchTaskItemDto searchModel);
     Task DeleteAsync(long id);
 
     Task ToggleIsDone(long id, bool isDone);

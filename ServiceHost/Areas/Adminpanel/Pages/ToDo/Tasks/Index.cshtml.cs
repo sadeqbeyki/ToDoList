@@ -1,26 +1,31 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using ServiceHost.Areas.Adminpanel.Pages.ToDo.Tasks.ViewModels;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using ToDo.Application.DTOs.TaskItem;
 using ToDo.Application.DTOs.TaskItems;
+using ToDo.Application.DTOs.TaskLists;
 using ToDo.Application.Interfaces;
 
 namespace ServiceHost.Areas.Adminpanel.Pages.ToDo.Tasks;
 
+[Area("Adminpanel")]
 public class IndexModel : PageModel
 {
     [TempData] public string Message { get; set; }
-    public List<TaskViewModel> Tasks { get; set; } = new();
-    public EditTaskItemDto TaskDetails { get; set; } = new();
+    public List<TaskItemDto> Tasks { get; set; } = new();
+    public List<TaskListDto> TaskLists { get; set; } = new();
+    public TaskItemDto TaskDetails { get; set; } = new();
     public SearchTaskItemDto SearchModel { get; set; } = new();
+
     public SelectList TaskViewModel;
 
-    private readonly ITaskApplication _taskApplication;
+    private readonly ITaskService _taskApplication;
     private readonly ITaskListService _taskCategoryApplication;
 
-    public IndexModel(ITaskApplication taskApplication, ITaskListService taskCategoryApplication)
+    public IndexModel(ITaskService taskApplication, ITaskListService taskCategoryApplication)
     {
         _taskApplication = taskApplication;
         _taskCategoryApplication = taskCategoryApplication;
@@ -30,64 +35,76 @@ public class IndexModel : PageModel
     {
         //SearchModel = searchModel;  
         TaskViewModel = new SelectList(await _taskCategoryApplication.GetAllTaskList(), "Id", "Name");
-        Tasks = _taskApplication.Search(searchModel);
+        Tasks = await _taskApplication.SearchAsync(searchModel);
     }
 
     public async Task<IActionResult> OnGetDetailsAsync(long id)
     {
-        TaskDetails = await _taskApplication.GetDetails(id);
+        TaskDetails = await _taskApplication.GetByIdAsync(id);
         return Partial("Details", TaskDetails);
     }
 
     public async Task<PartialViewResult> OnGetCreate()
     {
-        var command = new TaskItemDto
+        var viewModel = new CreateTaskViewModel
         {
-            TaskList = await _taskCategoryApplication.GetAllTaskList()
+            TaskLists = await _taskCategoryApplication.GetAllTaskList()
         };
-        return Partial("Create", command);
+        return Partial("Create", viewModel);
     }
 
-    public async Task<IActionResult> OnPostCreate(TaskItemDto command)
+    public async Task<IActionResult> OnPostCreate(CreateTaskViewModel model)
     {
         if (!ModelState.IsValid)
         {
-            command.TaskList = await _taskCategoryApplication.GetAllTaskList();
-            return Partial("Create", command);
+            model.TaskLists = await _taskCategoryApplication.GetAllTaskList();
+            return Partial("Create", model);
         }
 
-        var result = await _taskApplication.Create(command);
+        var result = await _taskApplication.Create(model.Task);
 
         if (result.IsSucceeded)
             return new JsonResult(result);
 
         ModelState.AddModelError("", result.Message);
-        command.TaskList = await _taskCategoryApplication.GetAllTaskList();
-        return Partial("Create", command);
+        model.TaskLists = await _taskCategoryApplication.GetAllTaskList();
+        return Partial("Create", model);
     }
 
     public async Task<PartialViewResult> OnGetEdit(long id)
     {
-        var task = await _taskApplication.GetDetails(id);
-        task.TaskList = await _taskCategoryApplication.GetAllTaskList();
-        return Partial("Edit", task);
+        var viewModel = new EditTaskViewModel
+        {
+            Task = await _taskApplication.GetByIdAsync(id),
+            TaskLists = await _taskCategoryApplication.GetAllTaskList()
+        };
+        
+        return Partial("Edit", viewModel);
     }
 
-    public async Task<IActionResult> OnPostEdit(EditTaskItemDto command)
+    public async Task<IActionResult> OnPostEdit(EditTaskViewModel model)
     {
         if (!ModelState.IsValid)
         {
-            command.TaskList = await _taskCategoryApplication.GetAllTaskList();
-            return Partial("Update", command);
+            model.TaskLists = await _taskCategoryApplication.GetAllTaskList();
+            return Partial("Update", model);
         }
 
-        var result = await _taskApplication.Edit(command);
+        var dto = new EditTaskDto
+        {
+            Id = model.Task.Id,  
+            Title = model.Task.Title,
+            IsDone= model.Task.IsDone,
+            Description = model.Task.Description,
+            TaskListId = model.Task.TaskListId,
+        };
+        var result = await _taskApplication.Edit(dto);
         if (result.IsSucceeded)
             return new JsonResult(result);
 
         ModelState.AddModelError("", result.Message);
-        command.TaskList = await _taskCategoryApplication.GetAllTaskList();
-        return Partial("Edit", command);
+        model.TaskLists = await _taskCategoryApplication.GetAllTaskList();
+        return Partial("Edit", model);
     }
 
     [ValidateAntiForgeryToken]

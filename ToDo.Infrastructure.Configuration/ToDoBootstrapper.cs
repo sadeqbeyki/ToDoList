@@ -13,15 +13,19 @@ public class ToDoBootstrapper
 {
     public static void Configure(IServiceCollection services, string connectionString)
     {
+        // Application & Domain Layer
         services.AddTransient<ITaskListService, TaskListService>();
-        services.AddTransient<ITaskListRepository, TaskListRepository>();
-
         services.AddTransient<ITaskService, TaskItemService>();
+
+        // Infrastructure Layer
+        services.AddTransient<ITaskListRepository, TaskListRepository>();
         services.AddTransient<ITaskRepository, TaskRepository>();
 
+        // AutoMapper Configuration
         services.AddAutoMapper(typeof(MappingProfile));
 
-
-        services.AddDbContext<ToDoContext>(x => x.UseSqlServer(connectionString));
+        // DbContext Configuration
+        services.AddDbContext<ToDoContext>(options =>
+            options.UseSqlServer(connectionString));
     }
 }

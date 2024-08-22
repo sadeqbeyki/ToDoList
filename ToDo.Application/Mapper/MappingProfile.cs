@@ -13,11 +13,6 @@ public class MappingProfile:Profile
         CreateMap<TaskItem, TaskItemDto>()
             .ForMember(dest => dest.TaskListTitle, opt => opt.MapFrom(src => src.TaskList.Name));
 
-        CreateMap<SearchTaskItemDto, TaskItem>()
-            .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title ?? ""))
-            .ForMember(dest => dest.TaskListId, opt => opt.MapFrom(src => src.TaskListId))
-            .ForMember(dest => dest.IsDone, opt => opt.MapFrom(src => src.IsDone ?? false));
-
         CreateMap<TaskList, TaskListDto>().ReverseMap();
         CreateMap<CreateTaskListDto, TaskList>();
         CreateMap<EditTaskListDto, TaskList>();
