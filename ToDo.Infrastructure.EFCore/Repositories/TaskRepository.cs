@@ -39,7 +39,6 @@ public class TaskRepository : RepositoryBase<long, TaskItem>, ITaskRepository
         var query = _taskContext.TaskItems
             .Include(x => x.TaskList)
              .AsQueryable();
-        //var query = _taskContext.TaskItems.AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(filter.Title))
             query = query.Where(x => x.Title.Contains(filter.Title));

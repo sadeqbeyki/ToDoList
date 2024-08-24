@@ -14,7 +14,7 @@ const SinglePage = {
                 $.validator.unobtrusive.parse($form);
                 this.showModal();
             })
-            .fail(() => alert("خطایی رخ داده، لطفا با مدیر سیستم تماس بگیرید."));
+            .fail(() => alert("An error has occurred, please contact the system administrator."));
     },
 
     showModal() {
@@ -51,7 +51,7 @@ const SinglePage = {
                 processData: false,
                 contentType: false,
                 success: data => this.handleCallback(data, action, $form),
-                error: () => alert("خطایی رخ داده است. لطفا با مدیر سیستم تماس بگیرید.")
+                error: () => alert("An error has occurred, please contact the system administrator.")
             });
         }
     },
@@ -109,17 +109,17 @@ $(function () {
         if (fieldId) url += `/${$(`#${fieldId}`).val()}`;
 
         if ($btn.data("request-confirm")) {
-            if (!confirm("آیا از انجام این عملیات اطمینان دارید؟")) return;
+            if (!confirm("Are you sure?")) return;
         }
 
         if (method === "post") {
             $.post(url, data)
                 .done(() => window.location.reload())
-                .fail(() => alert("خطایی رخ داده است. لطفا با مدیر سیستم تماس بگیرید."));
+                .fail(() => alert("An error has occurred, please contact the system administrator."));
         } else {
             $.get(url, data)
                 .done(response => console.log(response))
-                .fail(() => alert("خطایی رخ داده است. لطفا با مدیر سیستم تماس بگیرید."));
+                .fail(() => alert("An error has occurred, please contact the system administrator."));
         }
     });
 });
@@ -163,12 +163,12 @@ $(document).on("click", ".toggle-done", function () {
                     button.closest("tr").removeClass("table-danger");
                 }
 
-                toastr.success("وضعیت با موفقیت تغییر کرد");
+                toastr.success("Task status changed successfully.");
             }, 300);
         },
         error: function () {
             icon.removeClass("fa-spin");
-            toastr.error("خطا در تغییر وضعیت");
+            toastr.error("Error changing status. Please try again.");
         }
     });
 });
@@ -202,11 +202,11 @@ $(document).ready(function () {
             success: function () {
                 const row = checkbox.closest("tr");
                 row.toggleClass("table-danger", isDone);
-                toastr.success("وضعیت وظیفه با موفقیت تغییر کرد");
+                toastr.success("Task status changed successfully.");
             },
             error: function () {
                 checkbox.prop("checked", !isDone);
-                toastr.error("خطا در تغییر وضعیت. لطفاً دوباره تلاش کنید.");
+                toastr.error("Error changing status. Please try again.");
             }
         });
     });
