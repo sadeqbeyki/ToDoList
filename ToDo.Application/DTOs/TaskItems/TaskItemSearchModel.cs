@@ -1,4 +1,4 @@
-﻿namespace ToDo.Domain.Models;
+﻿namespace ToDo.Application.DTOs.TaskItems;
 
 public class TaskItemSearchModel
 {

@@ -1,8 +1,11 @@
-﻿using System.Collections.Generic;
-using ToDo.Application.DTOs.TaskLists;
+﻿namespace ToDo.Domain.Models;
 
-namespace ToDo.Application.DTOs.TaskItems;
-
+public class TaskItemSearchDto
+{
+    public string? Title { get; set; }
+    public bool? IsDone { get; set; }
+    public long? TaskListId { get; set; }
+}
 
 public class TaskItemDto
 {
@@ -13,6 +16,4 @@ public class TaskItemDto
     public string TaskListTitle { get; set; } = "";
     public long TaskListId { get; set; }
     public string CreationDate { get; set; }
-    public List<TaskListDto> TaskList { get; set; } = new List<TaskListDto>();
 }
-

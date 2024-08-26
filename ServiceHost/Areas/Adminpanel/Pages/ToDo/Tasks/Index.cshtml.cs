@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using ServiceHost.Areas.Adminpanel.Pages.ToDo.Tasks.ViewModels;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using ToDo.Application.DTOs.TaskItem;
 using ToDo.Application.DTOs.TaskItems;
 using ToDo.Application.DTOs.TaskLists;
 using ToDo.Application.Interfaces;
@@ -15,10 +14,10 @@ namespace ServiceHost.Areas.Adminpanel.Pages.ToDo.Tasks;
 public class IndexModel : PageModel
 {
     [TempData] public string Message { get; set; }
-    public List<TaskItemDto> Tasks { get; set; } = new();
+    public List<TaskItemViewModel> Tasks { get; set; } = new();
     public List<TaskListDto> TaskLists { get; set; } = new();
-    public TaskItemDto TaskDetails { get; set; } = new();
-    public SearchTaskItemDto SearchModel { get; set; } = new();
+    public TaskItemViewModel TaskDetails { get; set; } = new();
+    public TaskItemSearchModel SearchModel { get; set; } = new();
 
     public SelectList TaskViewModel;
 
@@ -31,11 +30,11 @@ public class IndexModel : PageModel
         _taskCategoryApplication = taskCategoryApplication;
     }
 
-    public async Task OnGet(SearchTaskItemDto searchModel)
+    public async Task OnGet(TaskItemSearchModel searchModel)
     {
         //SearchModel = searchModel;  
         TaskViewModel = new SelectList(await _taskCategoryApplication.GetAllTaskList(), "Id", "Name");
-        Tasks = await _taskApplication.SearchAsync(searchModel);
+        Tasks = await _taskApplication.Search(searchModel);
     }
 
     public async Task<IActionResult> OnGetDetailsAsync(long id)

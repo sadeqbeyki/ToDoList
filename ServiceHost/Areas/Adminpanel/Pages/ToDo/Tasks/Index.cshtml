@@ -50,6 +50,15 @@
                                 <option value="0">Task List Name</option>
                             </select>
                         </div>
+                        <div class="col-md-4">
+                            <label asp-for="SearchModel.IsDone" class="form-label">Completion status</label>
+                            <select asp-for="SearchModel.IsDone" class="form-select">
+                                <option value="">All</option>
+                                <option value="true">✅ Done </option>
+                                <option value="false">❌ Active </option>
+                            </select>
+                        </div>
+
                         <div class="col-md-auto">
                             <button type="submit" class="btn btn-success">
                                 <i class="bi bi-search"></i> Search

@@ -9,7 +9,7 @@ namespace ToDo.Domain.Interfaces;
 public interface ITaskRepository : IRepository<long, TaskItem>
 {
     Task<TaskItem> GetTaskItemById(long id);
-    Task<TaskItem> GetTaskItemWithTaskList(long id);
-    Task<List<TaskItem>> SearchAsync(TaskItemSearchModel searchModel);
     Task<List<TaskItem>> GetAllTaskItem();
+    Task<TaskItem> GetTaskItemWithTaskList(long id);
+    Task<List<TaskItemDto>> Search(TaskItemSearchDto searchModel);
 }

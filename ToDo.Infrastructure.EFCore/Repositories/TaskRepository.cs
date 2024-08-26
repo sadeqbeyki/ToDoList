@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ToDo.Application.DTOs.TaskItem;
 using ToDo.Domain.Entities;
 using ToDo.Domain.Interfaces;
 using ToDo.Domain.Models;
@@ -34,45 +33,31 @@ public class TaskRepository : RepositoryBase<long, TaskItem>, ITaskRepository
                      .FirstOrDefaultAsync(t => t.Id == id);
 
 
-    public async Task<List<TaskItem>> SearchAsync(TaskItemSearchModel filter)
+    public async Task<List<TaskItemDto>> Search(TaskItemSearchDto searchModel)
     {
         var query = _taskContext.TaskItems
             .Include(x => x.TaskList)
-             .AsQueryable();
+            .Select(x => new TaskItemDto
+        {
+            Id = x.Id,
+            Title = x.Title,
+            IsDone = x.IsDone,
+            Description = x.Description,
+            TaskListId = x.TaskListId,
+            TaskListTitle = x.TaskList.Name,
+            CreationDate = x.CreationDate.ToFarsi()
+        }).AsQueryable();
 
-        if (!string.IsNullOrWhiteSpace(filter.Title))
-            query = query.Where(x => x.Title.Contains(filter.Title));
+        if (!string.IsNullOrWhiteSpace(searchModel.Title))
+            query = query.Where(x => x.Title.Contains(searchModel.Title));
 
-        if (filter.TaskListId > 0)
-            query = query.Where(x => x.TaskListId == filter.TaskListId);
+        if (searchModel.TaskListId > 0)
+            query = query.Where(x => x.TaskListId == searchModel.TaskListId);
 
-        //if (filter.IsDone.HasValue)
-        //    query = query.Where(x => x.IsDone == filter.IsDone.HasValue);
+        if (searchModel.IsDone.HasValue)
+            query = query.Where(x => x.IsDone == searchModel.IsDone.Value);
 
-        return await query
-            .OrderByDescending(x => x.CreationDate)
-            .ToListAsync();
+        return await query.OrderByDescending(x => x.Id).ToListAsync();
     }
-
-    //public List<TaskItem> Search(TaskItem searchModel)
-    //{
-    //    var query = _taskContext.TaskItems.Include(x => x.TaskList).Select(x => new TaskViewModel
-    //    {
-    //        Id = x.Id,
-    //        Title = x.Title,
-    //        IsDone = x.IsDone,
-    //        TaskListId = x.TaskListId,
-    //        TaskList = x.TaskList.Name,
-    //        CreationDate = x.CreationDate.ToFarsi()
-    //    });
-
-    //    if (!string.IsNullOrWhiteSpace(searchModel.Name))
-    //        query = query.Where(x => x.Title.Contains(searchModel.Name));
-
-    //    if (searchModel.TaskListId != 0)
-    //        query = query.Where(x => x.TaskListId == searchModel.TaskListId);
-
-    //    return query.OrderByDescending(x => x.Id).ToList();
-    //}
 
 }

@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using System;
 using ToDo.Domain.Interfaces;
 using ToDo.Domain.Entities;
-using ToDo.Application.DTOs.TaskItem;
 using ToDo.Application.DTOs.TaskItems;
 using System.Linq;
 using ToDo.Application.Interfaces;
@@ -16,12 +15,12 @@ public class TaskItemService(ITaskRepository taskRepository, IMapper mapper) : I
 {
     private readonly ITaskRepository _taskRepository = taskRepository;
     private readonly IMapper _mapper = mapper;
-    public async Task<TaskItemDto?> GetByIdAsync(long id)
+    public async Task<TaskItemViewModel?> GetByIdAsync(long id)
     {
         var task = await _taskRepository.GetTaskItemWithTaskList(id);
         if (task == null) return null;
 
-        return new TaskItemDto
+        return new TaskItemViewModel
         {
             Id = task.Id,
             Title = task.Title,
@@ -31,11 +30,11 @@ public class TaskItemService(ITaskRepository taskRepository, IMapper mapper) : I
             TaskListTitle = task.TaskList?.Name ?? ""
         };
     }
-    public async Task<List<TaskItemDto>> GetAllAsync()
+    public async Task<List<TaskItemViewModel>> GetAllAsync()
     {
         var tasks = await _taskRepository.GetAllTaskItem();
 
-        return tasks.Select(x => new TaskItemDto
+        return tasks.Select(x => new TaskItemViewModel
         {
             Id = x.Id,
             Title = x.Title,
@@ -73,29 +72,13 @@ public class TaskItemService(ITaskRepository taskRepository, IMapper mapper) : I
         return operation.Succeeded();
     }
 
-
-    public async Task<List<TaskItemDto>> SearchAsync(SearchTaskItemDto filter)
+    public async Task<List<TaskItemViewModel>> Search(TaskItemSearchModel filter)
     {
-        var searchModel = new TaskItemSearchModel
-        {
-            Title = filter.Title,
-            IsDone = filter.IsDone,
-            TaskListId = filter.TaskListId
-        };
+        var searchModel = _mapper.Map<TaskItemSearchDto>(filter);
+        var result = await _taskRepository.Search(searchModel);
+        var mappedResult = _mapper.Map<List<TaskItemViewModel>>(result);
 
-        var query = await _taskRepository.SearchAsync(searchModel);
-
-        return [.. query.Select(x => new TaskItemDto
-        {
-            Id = x.Id,
-            Title = x.Title,
-            Description = x.Description,
-            IsDone = x.IsDone,
-            TaskListTitle = x.TaskList?.Name,
-            TaskListId = x.TaskListId,
-            CreationDate = x.CreationDate.ToFarsi(),
-        }).OrderByDescending(x => x.CreationDate)];
-
+        return mappedResult;
     }
 
 
