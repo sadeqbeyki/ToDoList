@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 using ToDo.Application.DTOs.TaskItems;
 using ToDo.Application.DTOs.TaskLists;
 using ToDo.Application.Interfaces;
+using ToDo.Domain.DTOs;
 using ToDo.Domain.Entities;
 using ToDo.Domain.Interfaces;
+using ToDo.Domain.Models;
 
 namespace ToDo.Application.Services;
 
@@ -43,24 +45,25 @@ public class TaskListService(ITaskListRepository taskCategoryRepository, IMapper
         return operation.Succeeded();
     }
 
-    public async Task<List<TaskListDto>> GetAllTaskList()
+    public async Task<List<TaskListViewModel>> GetAllTaskList()
     {
         var list = await _taskCategoryRepository.GetAllTaskLists();
-        return _mapper.Map<List<TaskListDto>>(list);
+        return _mapper.Map<List<TaskListViewModel>>(list);
     }
 
-    public async Task<TaskListDto> GetDetails(long id)
+    public async Task<TaskListViewModel> GetDetails(long id)
     {
         var entity = await _taskCategoryRepository.GetAsync(id);
-        return _mapper.Map<TaskListDto>(entity);
+        return _mapper.Map<TaskListViewModel>(entity);
     }
 
 
-    public async Task<List<TaskListDto>> Search(SearchTaskListDto filter)
+    public async Task<List<TaskListViewModel>> SearchAsync(TaskListSearchModel filter)
     {
-        var searchModel =  _mapper.Map<TaskList>(filter);
+        var searchModel =  _mapper.Map<TaskListSearchDto>(filter);
+        var result = await _taskCategoryRepository.SearchAsync(searchModel);
+        var mappedResult =  _mapper.Map<List<TaskListViewModel>>(result);
 
-        var result = _taskCategoryRepository.Search(searchModel);
-        return  _mapper.Map<List<TaskListDto>>(result);
+        return mappedResult;
     }
 }

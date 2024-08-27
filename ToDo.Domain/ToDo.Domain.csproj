@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AppFramework\AppFramework.csproj" />
-    <ProjectReference Include="..\ToDo.Application.Contracts\ToDo.Application.Contracts.csproj" />
   </ItemGroup>
 
 </Project>

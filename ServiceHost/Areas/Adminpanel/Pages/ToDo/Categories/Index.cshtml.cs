@@ -9,8 +9,8 @@ namespace ServiceHost.Areas.Adminpanel.Pages.ToDo.Categories;
 
 public class IndexModel : PageModel
 {
-    public SearchTaskListDto SearchModel;
-    public List<TaskListDto> TaskCategories;
+    public TaskListSearchModel SearchModel;
+    public List<TaskListViewModel> TaskCategories;
     private readonly ITaskListService _taskCategoryApplication;
 
     public IndexModel(ITaskListService taskCategoryApplication)
@@ -18,9 +18,9 @@ public class IndexModel : PageModel
         _taskCategoryApplication = taskCategoryApplication;
     }
 
-    public async Task OnGet(SearchTaskListDto searchModel)
+    public async Task OnGet(TaskListSearchModel searchModel)
     {
-        TaskCategories = await _taskCategoryApplication.Search(searchModel);
+        TaskCategories = await _taskCategoryApplication.SearchAsync(searchModel);
     }
     public PartialViewResult OnGetCreate()
     {

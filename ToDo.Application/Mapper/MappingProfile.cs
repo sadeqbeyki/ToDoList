@@ -3,6 +3,7 @@ using ToDo.Domain.Entities;
 using AutoMapper;
 using ToDo.Application.DTOs.TaskLists;
 using ToDo.Domain.Models;
+using ToDo.Domain.DTOs;
 
 namespace ToDo.Application.Mapper;
 
@@ -15,12 +16,13 @@ public class MappingProfile : Profile
 
 
         CreateMap<TaskItemSearchModel, TaskItemSearchDto>();
-        CreateMap<TaskItemDto, TaskItemViewModel>();
+        CreateMap<TaskItemViewDto, TaskItemViewModel>();
 
-        CreateMap<TaskList, TaskListDto>().ReverseMap();
+        CreateMap<TaskList, TaskListViewModel>().ReverseMap();
         CreateMap<CreateTaskListDto, TaskList>();
         CreateMap<EditTaskListDto, TaskList>();
 
-
+        CreateMap<TaskListSearchModel, TaskListSearchDto>();
+        CreateMap<TaskListViewDto, TaskListViewModel>();
     }
 }

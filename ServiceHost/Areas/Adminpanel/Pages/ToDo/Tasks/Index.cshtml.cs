@@ -15,7 +15,7 @@ public class IndexModel : PageModel
 {
     [TempData] public string Message { get; set; }
     public List<TaskItemViewModel> Tasks { get; set; } = new();
-    public List<TaskListDto> TaskLists { get; set; } = new();
+    public List<TaskListViewModel> TaskLists { get; set; } = new();
     public TaskItemViewModel TaskDetails { get; set; } = new();
     public TaskItemSearchModel SearchModel { get; set; } = new();
 

@@ -7,11 +7,11 @@ namespace ServiceHost.Areas.Adminpanel.Pages.ToDo.Tasks.ViewModels;
 public class CreateTaskViewModel
 {
     public CreateTaskDto Task { get; set; } = new();
-    public List<TaskListDto> TaskLists { get; set; } = new();
+    public List<TaskListViewModel> TaskLists { get; set; } = new();
 }
 
 public class EditTaskViewModel
 {
     public TaskItemViewModel Task { get; set; } = new();
-    public List<TaskListDto> TaskLists { get; set; } = new();
+    public List<TaskListViewModel> TaskLists { get; set; } = new();
 }

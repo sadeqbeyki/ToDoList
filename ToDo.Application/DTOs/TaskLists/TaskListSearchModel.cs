@@ -1,6 +1,6 @@
 ﻿namespace ToDo.Application.DTOs.TaskLists;
 
-public class SearchTaskListDto
+public class TaskListSearchModel
 {
     public string Name { get; set; }
 }

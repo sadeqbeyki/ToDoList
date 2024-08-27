@@ -1,6 +1,6 @@
 ﻿namespace ToDo.Application.DTOs.TaskLists;
 
-public class TaskListDto
+public class TaskListViewModel
 {
     public long Id { get; set; }
     public string Name { get; set; }

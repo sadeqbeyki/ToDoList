@@ -9,7 +9,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ToDo.Application.Contracts\ToDo.Application.Contracts.csproj" />
     <ProjectReference Include="..\ToDo.Application\ToDo.Application.csproj" />
     <ProjectReference Include="..\ToDo.Infrastructure.EFCore\ToDo.Infrastructure.EFCore.csproj" />
   </ItemGroup>

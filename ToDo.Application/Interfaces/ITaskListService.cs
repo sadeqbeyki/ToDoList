@@ -9,7 +9,7 @@ public interface ITaskListService
 {
     Task<OperationResult> Create(CreateTaskListDto command);
     Task<OperationResult> Edit(EditTaskListDto command);
-    Task<TaskListDto> GetDetails(long id);
-    Task<List<TaskListDto>> GetAllTaskList();
-    Task<List<TaskListDto>> Search(SearchTaskListDto searchModel);
+    Task<TaskListViewModel> GetDetails(long id);
+    Task<List<TaskListViewModel>> GetAllTaskList();
+    Task<List<TaskListViewModel>> SearchAsync(TaskListSearchModel searchModel);
 }

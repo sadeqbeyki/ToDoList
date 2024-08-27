@@ -1,10 +1,14 @@
-﻿using AppFramework.Infrastructure;
+﻿using AppFramework.Application;
+using AppFramework.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ToDo.Application.DTOs.TaskLists;
+using ToDo.Domain.DTOs;
 using ToDo.Domain.Entities;
 using ToDo.Domain.Interfaces;
+using ToDo.Domain.Models;
 
 namespace ToDo.Infrastructure.EFCore.Repositories;
 
@@ -27,12 +31,20 @@ public class TaskListRepository : RepositoryBase<long, TaskList>, ITaskListRepos
         return await _todoContext.TaskLists.FirstOrDefaultAsync(x => x.Id == id);
     }
 
-    public List<TaskList> Search(TaskList searchModel)
+    public async Task<List<TaskListViewDto>> SearchAsync(TaskListSearchDto searchModel)
     {
-        var query = _todoContext.TaskLists.AsQueryable();
+        var query = _todoContext.TaskLists
+            .Select(x => new TaskListViewDto
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Description = x.Description,
+                CreationDate = x.CreationDate.ToFarsi()
+            }).AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(searchModel.Name))
             query = query.Where(x => x.Name.Contains(searchModel.Name));
-        return query.OrderByDescending(x => x.Id).ToList();
+
+        return await query.OrderByDescending(x => x.Id).ToListAsync();
     }
 }

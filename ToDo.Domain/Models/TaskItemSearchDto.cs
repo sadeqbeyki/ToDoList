@@ -7,7 +7,7 @@ public class TaskItemSearchDto
     public long? TaskListId { get; set; }
 }
 
-public class TaskItemDto
+public class TaskItemViewDto
 {
     public long Id { get; set; }
     public string Title { get; set; } = "";

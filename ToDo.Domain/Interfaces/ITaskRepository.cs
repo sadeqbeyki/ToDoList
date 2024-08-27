@@ -11,5 +11,5 @@ public interface ITaskRepository : IRepository<long, TaskItem>
     Task<TaskItem> GetTaskItemById(long id);
     Task<List<TaskItem>> GetAllTaskItem();
     Task<TaskItem> GetTaskItemWithTaskList(long id);
-    Task<List<TaskItemDto>> Search(TaskItemSearchDto searchModel);
+    Task<List<TaskItemViewDto>> Search(TaskItemSearchDto searchModel);
 }

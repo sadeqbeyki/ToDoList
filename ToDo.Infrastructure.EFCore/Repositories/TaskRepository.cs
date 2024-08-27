@@ -33,11 +33,11 @@ public class TaskRepository : RepositoryBase<long, TaskItem>, ITaskRepository
                      .FirstOrDefaultAsync(t => t.Id == id);
 
 
-    public async Task<List<TaskItemDto>> Search(TaskItemSearchDto searchModel)
+    public async Task<List<TaskItemViewDto>> Search(TaskItemSearchDto searchModel)
     {
         var query = _taskContext.TaskItems
             .Include(x => x.TaskList)
-            .Select(x => new TaskItemDto
+            .Select(x => new TaskItemViewDto
         {
             Id = x.Id,
             Title = x.Title,
