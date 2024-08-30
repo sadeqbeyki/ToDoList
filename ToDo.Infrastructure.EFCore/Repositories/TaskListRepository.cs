@@ -4,11 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ToDo.Application.DTOs.TaskLists;
 using ToDo.Domain.DTOs;
 using ToDo.Domain.Entities;
 using ToDo.Domain.Interfaces;
-using ToDo.Domain.Models;
 
 namespace ToDo.Infrastructure.EFCore.Repositories;
 

@@ -84,7 +84,7 @@ public class TaskItemService(ITaskRepository taskRepository, IMapper mapper) : I
 
     public async Task DeleteAsync(long id)
     {
-        await _taskRepository.Delete(id);
+        _taskRepository.Delete(id);
         await _taskRepository.SaveChangesAsync();
     }
 

@@ -14,6 +14,6 @@ public interface IRepository<TKey, T> where T : class
     Task Create(T Entity);
     Task<bool> Exists(Expression<Func<T, bool>> expresstion);
     Task SaveChangesAsync();
-    Task Delete(TKey id);
+    void Delete(TKey id);
 
 }

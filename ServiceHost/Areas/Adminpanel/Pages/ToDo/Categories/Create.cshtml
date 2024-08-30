@@ -1,11 +1,12 @@
 ﻿@using global::ToDo.Application.DTOs.TaskLists
 @model CreateTaskListDto
 @{
+    ViewData["Title"] = "Add New List";
 }
 
 <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h4 class="modal-title">Add Task List</h4>
+    <h4 class="modal-title">@ViewData["Title"]</h4>
+    <button type="button" class="btn-close modal-close" data-bs-dismiss="modal" aria-hidden="true" aria-label="Close"></button>
 </div>
 
 <form asp-page="./Index" asp-page-handler="Create"
@@ -32,7 +33,7 @@
         </div>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-info waves-effect waves-light">Add</button>
+        <button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-info">Add</button>
     </div>
 </form>

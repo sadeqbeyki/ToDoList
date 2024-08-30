@@ -27,10 +27,20 @@ public class IndexModel : PageModel
         return Partial("./Create", new CreateTaskListDto());
     }
 
-    public JsonResult OnPostCreate(CreateTaskListDto command)
+    public async Task<IActionResult> OnPostCreate(CreateTaskListDto command)
     {
-        var result = _taskCategoryApplication.Create(command);
-        return new JsonResult(result);
+        if (!ModelState.IsValid)
+        {
+            return Partial("Create", command);
+        }
+
+        var result = await _taskCategoryApplication.Create(command);
+
+        if (result.IsSucceeded)
+            return new JsonResult(result);
+
+        ModelState.AddModelError("", result.Message);
+        return Partial("Create", command);
     }
 
     public PartialViewResult OnGetEdit(long id)

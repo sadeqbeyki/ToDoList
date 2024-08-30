@@ -1,15 +1,12 @@
 ﻿using AppFramework.Application;
-using AppFramework.Domain;
 using AutoMapper;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using ToDo.Application.DTOs.TaskItems;
 using ToDo.Application.DTOs.TaskLists;
 using ToDo.Application.Interfaces;
 using ToDo.Domain.DTOs;
 using ToDo.Domain.Entities;
 using ToDo.Domain.Interfaces;
-using ToDo.Domain.Models;
 
 namespace ToDo.Application.Services;
 
@@ -65,5 +62,10 @@ public class TaskListService(ITaskListRepository taskCategoryRepository, IMapper
         var mappedResult =  _mapper.Map<List<TaskListViewModel>>(result);
 
         return mappedResult;
+    }
+    public async Task DeleteAsync(long id)
+    {
+        _taskCategoryRepository.Delete(id);
+        await _taskCategoryRepository.SaveChangesAsync();
     }
 }
