@@ -1,11 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using ToDo.Application.DTOs.TaskLists;
 using ToDo.Application.Interfaces;
 
 namespace ServiceHost.Areas.Adminpanel.Pages.ToDo.Categories;
+[Area("Adminpanel")]
 
 public class IndexModel : PageModel
 {
@@ -43,14 +45,26 @@ public class IndexModel : PageModel
         return Partial("Create", command);
     }
 
-    public PartialViewResult OnGetEdit(long id)
+    public async Task<PartialViewResult> OnGetEdit(long id)
     {
-        var taskCategory = _taskCategoryApplication.GetDetails(id);
+        TaskListViewModel taskCategory = await _taskCategoryApplication.GetDetails(id);
+        if (taskCategory == null)
+            throw new ArgumentNullException(nameof(taskCategory), $"Task with id {id} not found");
+
         return Partial("Edit", taskCategory);
     }
-    public IActionResult OnPostEdit(EditTaskListDto command)
+    public async Task<IActionResult> OnPostEdit(EditTaskListDto command)
     {
-        var result = _taskCategoryApplication.Edit(command);
-        return new JsonResult(result);
+        if (!ModelState.IsValid)
+        {
+            return Partial("Edit", command);
+        }
+
+        var result = await _taskCategoryApplication.Edit(command);
+        if (result.IsSucceeded)
+            return new JsonResult(result);
+
+        ModelState.AddModelError("", result.Message);
+        return Partial("Edit", command);
     }
 }

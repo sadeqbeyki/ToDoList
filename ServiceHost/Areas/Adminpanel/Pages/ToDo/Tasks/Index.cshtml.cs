@@ -86,7 +86,7 @@ public class IndexModel : PageModel
         if (!ModelState.IsValid)
         {
             model.TaskLists = await _taskCategoryApplication.GetAllTaskList();
-            return Partial("Update", model);
+            return Partial("Edit", model);
         }
 
         var dto = new EditTaskDto

@@ -1,4 +1,4 @@
-﻿@page 
+﻿@page
 @model ServiceHost.Areas.Adminpanel.Pages.ToDo.Categories.IndexModel
 
 @{
@@ -6,73 +6,85 @@
     ViewData["title"] = "Task List Management";
 }
 
-<div class="row">
-    <div class="col-sm-12">
-        <h4 class="page-title pull-right">@ViewData["title"]</h4>
-        <p class="pull-left">
-            <a class="btn btn-success btn-lg" href="#showModal=@Url.Page("./Index", "Create")">Add New Task List</a>
-        </p>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        <h2 class="fw-bold text-dark mb-0">
+            <i class="bi bi-card-checklist me-2"></i>Task Lists
+        </h2>
+        <small class="text-muted">Manage and track your task Lists</small>
     </div>
+    <a class="btn btn-success" href="#showmodal=@Url.Page("./Index", "Create")">
+        <i class="bi bi-plus-circle"></i> Add new list
+    </a>
 </div>
 
 <div class="row">
     <div class="col-md-12">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">Search in task list</h3>
+        <div class="card shadow-sm mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center bg-light">
+                <h5 class="mb-0 text-secondary"><i class="bi bi-funnel me-2"></i>Search Lists</h5>
+                <button class="btn btn-sm btn-outline-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#searchForm">
+                    <i class="bi bi-chevron-down"></i>
+                </button>
             </div>
-            <div class="panel-body">
-                <form class="form-inline" role="form" method="get">
-                    <div class="form-group">
-                        <label class="sr-only" asp-for="SearchModel.Name"></label>
-                        <input class="form-control" asp-for="SearchModel.Name" placeholder="Task List Name">
-                    </div>
-                    <button type="submit" class="btn btn-success waves-effect waves-light m-l-10">Search</button>
-                    <a class="btn btn-primary waves-effect waves-light m-l-10" asp-page="./Index">Show All</a>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="row" id="ProductCategoriesDiv">
-    <div class="col-md-12">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">Task Lists</h3>
-            </div>
-            <div class="panel-body">
-                <div class="row">
-                    <div class="col-md-12 col-sm-12 col-xs-12">
-                        <table id="datatable" class="table table-striped table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Name</th>
-                                    <th>Creation Date</th>
-                                    <th>Operation</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var item in Model.TaskCategories)
-                                {
-                                    <tr>
-                                        <td>@item.Id</td>
-                                        <td>@item.Name</td>
-                                        <td>@item.CreationDate</td>
-                                        <td>
-                                            <a class="btn btn-warning pull-right m-rl-5"
-                                               href="#showModal=@Url.Page("./Index", "Edit", new { id = item.Id})">
-                                                <i class="fa fa-edit"></i> Edit
-                                            </a>
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
+            <div class="collapse show" id="searchForm">
+                <div class="card-body">
+                    <form method="get" class="row g-3 align-items-end">
+                        <div class="col-md-4">
+                            <input asp-for="SearchModel.Name" class="form-control" placeholder="Task Title" />
+                        </div>
+                        <div class="col-md-auto">
+                            <button type="submit" class="btn btn-success">
+                                <i class="bi bi-search"></i> Search
+                            </button>
+                            <a asp-page="./Index" class="btn btn-outline-primary ms-2">
+                                <i class="bi bi-arrow-clockwise"></i> View All
+                            </a>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-</div>  
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card shadow-sm">
+            <div class="card-header bg-light">
+                <h5 class="mb-0">
+                    <i class="bi bi-list-task me-2"></i>Task List
+                    <span class="badge bg-primary ms-2">@Model.ViewData</span>
+                </h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-hover table-bordered align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Creation Date</th>
+                            <th>Operation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.TaskCategories)
+                        {
+                            <tr>
+                                <td>@item.Id</td>
+                                <td>@item.Name</td>
+                                <td>@item.CreationDate</td>
+                                <td>
+                                    <a class="btn btn-outline-success btn-sm me-1"
+                                       href="#showModal=@Url.Page("./Index", "Edit", new { id = item.Id })">
+                                        <i class="bi bi-pencil"></i> Edit
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
