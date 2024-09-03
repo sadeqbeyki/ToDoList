@@ -29,5 +29,9 @@
            href="#showModal=@Url.Page("./Index", "Edit", new { id = Model.Id})">
             <i class="fa fa-edit"></i> Update
         </a>
+        <a class="btn btn-success pull-right m-rl-5"
+           href="#showModal=@Url.Action("./Index", "Delete", new { id = Model.Id})">
+            <i class="fa fa-edit"></i> Update
+        </a>
     </div>
 </form>

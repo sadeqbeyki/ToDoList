@@ -77,7 +77,7 @@ public class IndexModel : PageModel
             Task = await _taskApplication.GetByIdAsync(id),
             TaskLists = await _taskCategoryApplication.GetAllTaskList()
         };
-        
+
         return Partial("Edit", viewModel);
     }
 
@@ -91,9 +91,9 @@ public class IndexModel : PageModel
 
         var dto = new EditTaskDto
         {
-            Id = model.Task.Id,  
+            Id = model.Task.Id,
             Title = model.Task.Title,
-            IsDone= model.Task.IsDone,
+            IsDone = model.Task.IsDone,
             Description = model.Task.Description,
             TaskListId = model.Task.TaskListId,
         };
@@ -104,6 +104,12 @@ public class IndexModel : PageModel
         ModelState.AddModelError("", result.Message);
         model.TaskLists = await _taskCategoryApplication.GetAllTaskList();
         return Partial("Edit", model);
+    }
+
+    public async Task<IActionResult> OnPostDelete(long id)
+    {
+        var result = await _taskApplication.Delete(id);
+        return new JsonResult(result);
     }
 
     [ValidateAntiForgeryToken]

@@ -12,5 +12,4 @@ public interface ITaskListService
     Task<TaskListViewModel> GetDetails(long id);
     Task<List<TaskListViewModel>> GetAllTaskList();
     Task<List<TaskListViewModel>> SearchAsync(TaskListSearchModel searchModel);
-    Task DeleteAsync(long id);
 }

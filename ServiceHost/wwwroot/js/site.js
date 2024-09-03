@@ -238,3 +238,38 @@ $(document).ready(function () {
         }
     }
 });
+
+//delete
+$(document).ready(function () {
+    const token = $('input[name="__RequestVerificationToken"]').val();
+
+    $(document).on('click', '.btn-delete', function (e) {
+        e.preventDefault();
+
+        const btn = $(this);
+        const id = btn.data('id');
+        const url = btn.data('url');
+
+        if (!confirm("Are you sure you want to delete this item?")) return;
+
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: { id: id },
+            headers: {
+                'RequestVerificationToken': token
+            },
+            success: function (result) {
+                if (result.isSucceeded) {
+                    btn.closest("tr").remove();
+                } else {
+                    alert("خطا: " + result.message);
+                }
+            },
+            error: function () {
+                alert("خطا در حذف.");
+            }
+        });
+    });
+});
+

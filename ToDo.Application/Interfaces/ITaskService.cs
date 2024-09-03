@@ -15,8 +15,7 @@ public interface ITaskService
     Task<OperationResult> Create(CreateTaskDto command);
     Task<OperationResult> Edit(EditTaskDto command);
     Task<List<TaskItemViewModel>> Search(TaskItemSearchModel filter);
-    Task DeleteAsync(long id);
-
+    Task<OperationResult> Delete(long id);
     Task ToggleIsDone(long id, bool isDone);
 
 }

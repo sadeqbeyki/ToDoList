@@ -63,9 +63,5 @@ public class TaskListService(ITaskListRepository taskCategoryRepository, IMapper
 
         return mappedResult;
     }
-    public async Task DeleteAsync(long id)
-    {
-        _taskCategoryRepository.Delete(id);
-        await _taskCategoryRepository.SaveChangesAsync();
-    }
+
 }

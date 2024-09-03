@@ -9,6 +9,7 @@ using System.Linq;
 using ToDo.Application.Interfaces;
 using AutoMapper;
 using ToDo.Domain.Models;
+using AppFramework.Domain;
 
 namespace ToDo.Application.Services;
 public class TaskItemService(ITaskRepository taskRepository, IMapper mapper) : ITaskService
@@ -81,11 +82,18 @@ public class TaskItemService(ITaskRepository taskRepository, IMapper mapper) : I
         return mappedResult;
     }
 
-
-    public async Task DeleteAsync(long id)
+    public async Task<OperationResult> Delete(long id)
     {
-        _taskRepository.Delete(id);
+        var result = new OperationResult();
+
+        var taskList = await _taskRepository.GetTaskItemById(id);
+        if (taskList == null)
+            return result.Failed("Task list not found.");
+
+        _taskRepository.Delete(taskList);
         await _taskRepository.SaveChangesAsync();
+
+        return result.Succeeded();
     }
 
     public async Task ToggleIsDone(long id, bool isDone)

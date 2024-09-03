@@ -54,9 +54,14 @@ public class RepositoryBase<TKey, T> : IRepository<TKey, T> where T : class
         }
         await _context.SaveChangesAsync();
     }
-    public void Delete(TKey id)
+
+    public void Delete(T entity)
     {
-        _context.Remove(id);
+        _context.Set<T>().Remove(entity);
+    }
+    public T Get(TKey id)
+    {
+        return _context.Set<T>().Find(id);
     }
 
 }
