@@ -1,5 +1,6 @@
 ﻿using AppFramework.Domain;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using ToDo.Domain.Entities;
 using ToDo.Domain.Models;
@@ -12,5 +13,6 @@ public interface ITaskRepository : IRepository<long, TaskItem>
     Task<List<TaskItem>> GetAllTaskItem();
     Task<TaskItem> GetTaskItemWithTaskList(long id);
     Task<List<TaskItemViewDto>> Search(TaskItemSearchDto searchModel);
-    //void Delete(TaskItem entity);
+    IQueryable<TaskItem> GetQueryable();
+
 }

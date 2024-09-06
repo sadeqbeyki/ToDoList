@@ -1,4 +1,5 @@
 ﻿using AppFramework.Application;
+using AppFramework.Domain;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using ToDo.Application.DTOs.TaskItems;
@@ -17,6 +18,9 @@ public interface ITaskService
     Task<List<TaskItemViewModel>> Search(TaskItemSearchModel filter);
     Task<OperationResult> Delete(long id);
     Task ToggleIsDone(long id, bool isDone);
+    Task<PaginatedList<TaskItemViewModel>> GetPaginated(int pageIndex, int pageSize);
+    Task<PaginatedList<TaskItemViewModel>> SearchPaginated(TaskItemSearchModel searchModel, int pageIndex, int pageSize);
+
 
 }
 

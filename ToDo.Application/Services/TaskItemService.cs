@@ -10,6 +10,8 @@ using ToDo.Application.Interfaces;
 using AutoMapper;
 using ToDo.Domain.Models;
 using AppFramework.Domain;
+using ToDo.Application.DTOs.TaskLists;
+using Microsoft.EntityFrameworkCore;
 
 namespace ToDo.Application.Services;
 public class TaskItemService(ITaskRepository taskRepository, IMapper mapper) : ITaskService
@@ -101,6 +103,60 @@ public class TaskItemService(ITaskRepository taskRepository, IMapper mapper) : I
         var task = await _taskRepository.GetAsync(id) ?? throw new Exception("Task not found");
         task.IsDone = isDone;
         await _taskRepository.SaveChangesAsync();
+    }
+
+    public async Task<PaginatedList<TaskItemViewModel>> GetPaginated(int pageIndex, int pageSize)
+    {
+        var pagedTasks = await _taskRepository.GetAllPaginatedAsync(pageIndex, pageSize);
+
+        return new PaginatedList<TaskItemViewModel>(
+            pagedTasks.Select(t => new TaskItemViewModel
+            {
+                Id = t.Id,
+                Title = t.Title,
+                Description = t.Description,
+                IsDone = t.IsDone,
+                TaskListTitle = t.TaskList.Name,
+                TaskListId = t.TaskListId,
+                CreationDate = t.CreationDate.ToFarsi()
+            }).ToList(),
+            pagedTasks.TotalItems,
+            pagedTasks.PageIndex,
+            pageSize
+        );
+    }
+
+    public async Task<PaginatedList<TaskItemViewModel>> SearchPaginated(TaskItemSearchModel searchModel, int pageIndex, int pageSize)
+    {
+        var query = _taskRepository.GetQueryable(); 
+
+        if (!string.IsNullOrWhiteSpace(searchModel.Title))
+            query = query.Where(x => x.Title.Contains(searchModel.Title));
+
+        if (searchModel.IsDone.HasValue)
+            query = query.Where(x => x.IsDone == searchModel.IsDone.Value);
+
+        if (searchModel.TaskListId > 0)
+            query = query.Where(x => x.TaskListId == searchModel.TaskListId);
+
+        var totalCount = await query.CountAsync();
+
+        var tasks = await query
+            .OrderByDescending(x => x.Id)
+            .Skip((pageIndex - 1) * pageSize)
+            .Take(pageSize)
+            .Select(x => new TaskItemViewModel
+            {
+                Id = x.Id,
+                Title = x.Title,
+                IsDone = x.IsDone,
+                TaskListId = x.TaskListId,
+                TaskListTitle = x.TaskList.Name,
+                CreationDate = x.CreationDate.ToString("yyyy-MM-dd")
+            })
+            .ToListAsync();
+
+        return new PaginatedList<TaskItemViewModel>(tasks, totalCount, pageIndex, pageSize);
     }
 
 }

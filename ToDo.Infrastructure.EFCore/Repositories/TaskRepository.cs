@@ -60,8 +60,10 @@ public class TaskRepository : RepositoryBase<long, TaskItem>, ITaskRepository
         return await query.OrderByDescending(x => x.Id).ToListAsync();
     }
 
-    //public void Delete(TaskItem entity)
-    //{
-    //    _taskContext.TaskItems.Remove(entity);
-    //}
+    public IQueryable<TaskItem> GetQueryable()
+    {
+        return _taskContext.TaskItems
+            .Include(x => x.TaskList)
+            .AsNoTracking();
+    }
 }

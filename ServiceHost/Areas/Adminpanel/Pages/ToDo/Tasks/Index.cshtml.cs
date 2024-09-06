@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AppFramework.Domain;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using ServiceHost.Areas.Adminpanel.Pages.ToDo.Tasks.ViewModels;
@@ -13,13 +14,13 @@ namespace ServiceHost.Areas.Adminpanel.Pages.ToDo.Tasks;
 [Area("Adminpanel")]
 public class IndexModel : PageModel
 {
-    [TempData] public string Message { get; set; }
-    public List<TaskItemViewModel> Tasks { get; set; } = new();
-    public List<TaskListViewModel> TaskLists { get; set; } = new();
     public TaskItemViewModel TaskDetails { get; set; } = new();
-    public TaskItemSearchModel SearchModel { get; set; } = new();
 
     public SelectList TaskViewModel;
+    public TaskItemSearchModel SearchModel { get; set; } = new();
+    public PaginatedList<TaskItemViewModel> TaskItems { get; set; } = [];
+
+
 
     private readonly ITaskService _taskApplication;
     private readonly ITaskListService _taskCategoryApplication;
@@ -29,13 +30,20 @@ public class IndexModel : PageModel
         _taskApplication = taskApplication;
         _taskCategoryApplication = taskCategoryApplication;
     }
-
-    public async Task OnGet(TaskItemSearchModel searchModel)
+    public async Task OnGetAsync(TaskItemSearchModel searchModel, int pageIndex = 1)
     {
-        //SearchModel = searchModel;  
+        const int pageSize = 10;
         TaskViewModel = new SelectList(await _taskCategoryApplication.GetAllTaskList(), "Id", "Name");
-        Tasks = await _taskApplication.Search(searchModel);
+        TaskItems = await _taskApplication.SearchPaginated(searchModel, pageIndex, pageSize);
+        SearchModel = searchModel;
     }
+
+    //public async Task OnGet(TaskItemSearchModel searchModel)
+    //{
+    //    TaskViewModel = new SelectList(await _taskCategoryApplication.GetAllTaskList(), "Id", "Name");
+    //    Tasks = await _taskApplication.Search(searchModel);
+    //}
+
 
     public async Task<IActionResult> OnGetDetailsAsync(long id)
     {
@@ -111,6 +119,9 @@ public class IndexModel : PageModel
         var result = await _taskApplication.Delete(id);
         return new JsonResult(result);
     }
+
+
+
 
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> OnPostToggleDoneAsync([FromForm] long id, [FromForm] bool isDone)

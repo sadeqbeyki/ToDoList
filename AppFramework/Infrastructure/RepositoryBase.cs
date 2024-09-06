@@ -39,7 +39,6 @@ public class RepositoryBase<TKey, T> : IRepository<TKey, T> where T : class
     }
 
 
-
     public async Task<T> GetAsync(TKey id)
     {
         return await _context.FindAsync<T>(id);
@@ -62,6 +61,11 @@ public class RepositoryBase<TKey, T> : IRepository<TKey, T> where T : class
     public T Get(TKey id)
     {
         return _context.Set<T>().Find(id);
+    }
+
+    public async Task<PaginatedList<T>> GetAllPaginatedAsync(int pageIndex, int pageSize)
+    {
+        return await PaginatedList<T>.CreateAsync(_context.Set<T>().AsNoTracking(), pageIndex, pageSize);
     }
 
 }

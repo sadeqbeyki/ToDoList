@@ -17,6 +17,5 @@ public class TaskItemViewModel
     [Range(1, long.MaxValue, ErrorMessage = "Please select a Task List")]
     public long TaskListId { get; set; }
     public string CreationDate { get; set; }
-    public List<TaskListViewModel> TaskList { get; set; } = new List<TaskListViewModel>();
 }
 

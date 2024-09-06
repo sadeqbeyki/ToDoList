@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -16,5 +17,6 @@ public interface IRepository<TKey, T> where T : class
     Task SaveChangesAsync();
     void Delete(T entity);
     T Get(TKey id);
+    Task<PaginatedList<T>> GetAllPaginatedAsync(int pageIndex, int pageSize);
 
 }
