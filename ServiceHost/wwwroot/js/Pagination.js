@@ -1,4 +1,4 @@
-$(document).on("click", ".pagination-link", function(e) {
+﻿$(document).on("click", ".pagination-link", function(e) {
     e.preventDefault();
     const url = $(this).attr("href");
     $.get(url, function(data) {

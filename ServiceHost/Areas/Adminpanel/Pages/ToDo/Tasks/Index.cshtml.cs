@@ -38,11 +38,6 @@ public class IndexModel : PageModel
         SearchModel = searchModel;
     }
 
-    //public async Task OnGet(TaskItemSearchModel searchModel)
-    //{
-    //    TaskViewModel = new SelectList(await _taskCategoryApplication.GetAllTaskList(), "Id", "Name");
-    //    Tasks = await _taskApplication.Search(searchModel);
-    //}
 
 
     public async Task<IActionResult> OnGetDetailsAsync(long id)

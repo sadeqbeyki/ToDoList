@@ -1,4 +1,4 @@
-$(document).ready(function() {
+﻿$(document).ready(function() {
     const token = $('input[name="__RequestVerificationToken"]').val();
 
     $(document).on('click', '.btn-delete', function(e) {
