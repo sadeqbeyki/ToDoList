@@ -240,6 +240,39 @@ $(document).ready(function () {
 });
 
 //delete
+//$(document).ready(function () {
+//    const token = $('input[name="__RequestVerificationToken"]').val();
+
+//    $(document).on('click', '.btn-delete', function (e) {
+//        e.preventDefault();
+
+//        const btn = $(this);
+//        const id = btn.data('id');
+//        const url = btn.data('url');
+
+//        if (!confirm("Are you sure you want to delete this item?")) return;
+
+//        $.ajax({
+//            url: url,
+//            type: "POST",
+//            data: { id: id },
+//            headers: {
+//                'RequestVerificationToken': token
+//            },
+//            success: function (result) {
+//                if (result.isSucceeded) {
+//                    btn.closest("tr").remove();
+//                } else {
+//                    alert("خطا: " + result.message);
+//                }
+//            },
+//            error: function () {
+//                alert("خطا در حذف.");
+//            }
+//        });
+//    });
+//});
+
 $(document).ready(function () {
     const token = $('input[name="__RequestVerificationToken"]').val();
 
@@ -250,26 +283,51 @@ $(document).ready(function () {
         const id = btn.data('id');
         const url = btn.data('url');
 
-        if (!confirm("Are you sure you want to delete this item?")) return;
-
-        $.ajax({
-            url: url,
-            type: "POST",
-            data: { id: id },
-            headers: {
-                'RequestVerificationToken': token
-            },
-            success: function (result) {
-                if (result.isSucceeded) {
-                    btn.closest("tr").remove();
-                } else {
-                    alert("خطا: " + result.message);
-                }
-            },
-            error: function () {
-                alert("خطا در حذف.");
+        Swal.fire({
+            title: 'آیا مطمئن هستید؟',
+            text: "این عملیات غیرقابل بازگشت است!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'بله، حذف شود!',
+            cancelButtonText: 'انصراف'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: url,
+                    type: "POST",
+                    data: { id: id },
+                    headers: {
+                        'RequestVerificationToken': token
+                    },
+                    success: function (result) {
+                        if (result.isSucceeded) {
+                            Swal.fire(
+                                'حذف شد!',
+                                result.message || 'رکورد با موفقیت حذف شد.',
+                                'success'
+                            );
+                            btn.closest("tr").fadeOut(500, function () {
+                                $(this).remove();
+                            });
+                        } else {
+                            Swal.fire(
+                                'خطا!',
+                                result.message || 'حذف با مشکل مواجه شد.',
+                                'error'
+                            );
+                        }
+                    },
+                    error: function () {
+                        Swal.fire(
+                            'خطا!',
+                            'در هنگام حذف خطایی رخ داد.',
+                            'error'
+                        );
+                    }
+                });
             }
         });
     });
 });
-
