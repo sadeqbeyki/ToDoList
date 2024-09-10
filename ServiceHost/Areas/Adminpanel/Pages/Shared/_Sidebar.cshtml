@@ -1,15 +1,23 @@
-﻿
-<aside class="sidebar bg-light p-3" style="width: 250px;">
-    <h4>Menu</h4>
-    <ul class="nav flex-column">
+﻿<aside class="sidebar bg-white border-end vh-100 p-3" style="width: 250px; position: fixed; top: 0; left: 0;">
+    <div class="d-flex align-items-center mb-4">
+        <span class="fs-4 fw-bold">📋 MyTasks</span>
+    </div>
+
+    <ul class="nav nav-pills flex-column gap-2">
         <li class="nav-item">
-            <a class="nav-link" asp-page="ToDo/Index"> 🏠 Dashboard </a>
+            <a class="nav-link d-flex align-items-center gap-2" asp-page="/ToDo/Index">
+                <i class="bi bi-house-door"></i> Dashboard
+            </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" asp-page="ToDo/Categories/Index"> TaskList</a>
+            <a class="nav-link d-flex align-items-center gap-2" asp-page="/ToDo/Categories/Index">
+                <i class="bi bi-list-task"></i> Task Lists
+            </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" asp-page="ToDo/Tasks/Index"> Tasks </a>
+            <a class="nav-link d-flex align-items-center gap-2" asp-page="/ToDo/Tasks/Index">
+                <i class="bi bi-check2-square"></i> Tasks
+            </a>
         </li>
     </ul>
 </aside>
