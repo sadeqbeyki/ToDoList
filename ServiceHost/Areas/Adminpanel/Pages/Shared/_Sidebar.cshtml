@@ -1,23 +1,37 @@
-﻿<aside class="sidebar bg-white border-end vh-100 p-3" style="width: 250px; position: fixed; top: 0; left: 0;">
-    <div class="d-flex align-items-center mb-4">
-        <span class="fs-4 fw-bold">📋 MyTasks</span>
+﻿<!-- دکمه باز کردن سایدبار -->
+<button class="btn btn-outline-secondary m-3 d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu">
+    ☰ Menu
+</button>
+
+<!-- Offcanvas Sidebar -->
+<div class="offcanvas offcanvas-start bg-white border-end" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
+    <div class="offcanvas-header d-lg-none border-bottom px-3 py-2">
+        <h5 class="offcanvas-title" id="sidebarMenuLabel">📋 MyTasks</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
 
-    <ul class="nav nav-pills flex-column gap-2">
-        <li class="nav-item">
-            <a class="nav-link d-flex align-items-center gap-2" asp-page="/ToDo/Index">
-                <i class="bi bi-house-door"></i> Dashboard
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link d-flex align-items-center gap-2" asp-page="/ToDo/Categories/Index">
-                <i class="bi bi-list-task"></i> Task Lists
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link d-flex align-items-center gap-2" asp-page="/ToDo/Tasks/Index">
-                <i class="bi bi-check2-square"></i> Tasks
-            </a>
-        </li>
-    </ul>
-</aside>
+    <div class="offcanvas-header d-none d-lg-flex border-bottom px-3 py-2">
+        <h5 class="offcanvas-title">📋 MyTasks</h5>
+    </div>
+    
+    <div class="offcanvas-body">
+        <ul class="nav nav-pills flex-column gap-2">
+            <li class="nav-item">
+                <a class="nav-link d-flex align-items-center gap-2" asp-page="/ToDo/Index">
+                    <i class="bi bi-house-door"></i> Dashboard
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link d-flex align-items-center gap-2" asp-page="/ToDo/Categories/Index">
+                    <i class="bi bi-list-task"></i> Lists
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link d-flex align-items-center gap-2" asp-page="/ToDo/Tasks/Index">
+                    <i class="bi bi-check2-square"></i> Task Items
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+

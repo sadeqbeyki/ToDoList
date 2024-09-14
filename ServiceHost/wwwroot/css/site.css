@@ -46,3 +46,21 @@ body {
 }
 
 
+/*sidebar*/
+@media (min-width: 992px) {
+    #sidebarMenu {
+        position: fixed !important;
+        top: 0;
+        left: 0;
+        width: 250px;
+        height: 100vh;
+        z-index: 1030;
+        transform: none !important;
+        visibility: visible !important;
+    }
+
+    main {
+        margin-left: 250px;
+    }
+}
+/*end sideBar*/
