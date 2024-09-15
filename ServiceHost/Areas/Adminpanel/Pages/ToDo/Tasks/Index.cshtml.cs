@@ -38,8 +38,6 @@ public class IndexModel : PageModel
         SearchModel = searchModel;
     }
 
-
-
     public async Task<IActionResult> OnGetDetailsAsync(long id)
     {
         TaskDetails = await _taskApplication.GetByIdAsync(id);

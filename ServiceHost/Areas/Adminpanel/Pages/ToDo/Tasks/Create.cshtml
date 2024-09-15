@@ -1,12 +1,12 @@
 ﻿@using ServiceHost.Areas.Adminpanel.Pages.ToDo.Tasks.ViewModels
 @model CreateTaskViewModel
 @{
-    ViewData["Title"] = "Add New Task";
+    ViewData["Title"] = "Add new task";
 }
 
 <div class="modal-header">
-    <h4 class="modal-title">@ViewData["Title"]</h4>
-    <button type="button" class="btn-close modal-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <h5 class="modal-title">@ViewData["Title"]</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
 
 <form asp-page="./Index" asp-page-handler="Create"
@@ -16,28 +16,43 @@
       data-action="Refresh"
       enctype="multipart/form-data">
     <div class="modal-body">
-        <div class="row">
+        <div class="row g-3">
             <div class="col-md-6">
-                <div class="form-group">
+                <div class="form-floating">
+                    <input asp-for="Task.Title" class="form-control" placeholder="Title" />
                     <label asp-for="Task.Title"></label>
-                    <input asp-for="Task.Title" class="form-control" />
-                    <span asp-validation-for="Task.Title" class="text-danger"></span>
+                    <span asp-validation-for="Task.Title" class="text-danger small"></span>
                 </div>
             </div>
+
             <div class="col-md-6">
-                <div class="form-group">
-                    <label asp-for="Task.TaskListId"></label>
-                    <select asp-for="Task.TaskListId" asp-items="@(new SelectList(Model.TaskLists, "Id", "Name"))" class="form-control">
-                        <option value="TaskListId">Select Task List</option>
+                <div class="form-floating">
+                    <input asp-for="Task.Description" class="form-control" placeholder="Description" />
+                    <label asp-for="Task.Description"></label>
+                    <span asp-validation-for="Task.Description" class="text-danger small"></span>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="form-floating">
+                    <select asp-for="Task.TaskListId"
+                            asp-items="@(new SelectList(Model.TaskLists, "Id", "Name"))"
+                            class="form-select">
+                        <option value="">Select</option>
                     </select>
-                    <span asp-validation-for="Task.TaskListId" class="text-danger"></span>
+                    <label asp-for="Task.TaskListId" class="form-label"> </label>
+                    <span asp-validation-for="Task.TaskListId" class="text-danger small"></span>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary">Add</button>
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+            Close
+        </button>
+        <button type="submit" class="btn btn-primary">
+            Add Task
+        </button>
     </div>
 </form>
