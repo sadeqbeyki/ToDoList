@@ -32,6 +32,8 @@
                     <!-- CheckBox -->
                     <input type="checkbox"
                            class="form-check-input checkbox-mode is-done-toggle custom-checkbox"
+                           id="chkIsDone_@item.Id"
+                           name="chkIsDone_@item.Id"
                            data-id="@item.Id"
                     @(item.IsDone ? "checked" : "") />
                 </td>

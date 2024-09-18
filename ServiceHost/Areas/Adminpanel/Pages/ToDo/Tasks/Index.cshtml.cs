@@ -3,10 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using ServiceHost.Areas.Adminpanel.Pages.ToDo.Tasks.ViewModels;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using ToDo.Application.DTOs.TaskItems;
-using ToDo.Application.DTOs.TaskLists;
 using ToDo.Application.Interfaces;
 
 namespace ServiceHost.Areas.Adminpanel.Pages.ToDo.Tasks;
