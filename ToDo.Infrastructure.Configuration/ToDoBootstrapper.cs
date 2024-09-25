@@ -1,11 +1,11 @@
 ﻿using ToDo.Infrastructure.EFCore.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using ToDo.Infrastructure.EFCore;
 using ToDo.Domain.Interfaces;
 using ToDo.Application.Services;
 using ToDo.Application.Interfaces;
 using ToDo.Application.Mapper;
+using ToDo.Infrastructure.EFCore.Persistance;
 
 namespace ToDo.Infrastructure.Configuration;
 
@@ -25,7 +25,7 @@ public class ToDoBootstrapper
         services.AddAutoMapper(typeof(MappingProfile));
 
         // DbContext Configuration
-        services.AddDbContext<ToDoContext>(options =>
+        services.AddDbContext<ToDoDbContext>(options =>
             options.UseSqlServer(connectionString));
     }
 }

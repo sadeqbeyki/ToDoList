@@ -29,6 +29,7 @@
 
   <ItemGroup>
     <!--<Folder Include="Areas\Adminpanel\Pages\Account\" />-->
+    <Folder Include="Areas\Identity\Data\" />
     <Folder Include="wwwroot\Dashboard\" />
   </ItemGroup>
 

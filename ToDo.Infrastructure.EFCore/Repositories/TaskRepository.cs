@@ -7,14 +7,15 @@ using System.Threading.Tasks;
 using ToDo.Domain.Entities;
 using ToDo.Domain.Interfaces;
 using ToDo.Domain.Models;
+using ToDo.Infrastructure.EFCore.Persistance;
 
 namespace ToDo.Infrastructure.EFCore.Repositories;
 
 public class TaskRepository : RepositoryBase<long, TaskItem>, ITaskRepository
 {
-    private readonly ToDoContext _taskContext;
+    private readonly ToDoDbContext _taskContext;
 
-    public TaskRepository(ToDoContext taskContext) : base(taskContext)
+    public TaskRepository(ToDoDbContext taskContext) : base(taskContext)
     {
         _taskContext = taskContext;
     }

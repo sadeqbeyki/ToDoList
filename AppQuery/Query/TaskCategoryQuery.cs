@@ -1,18 +1,18 @@
 ﻿using AppQuery.Contracts.Task;
 using AppQuery.Contracts.TaskCategory;
-using ToDo.Infrastructure.EFCore;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using ToDo.Domain.Entities;
+using ToDo.Infrastructure.EFCore.Persistance;
 
 namespace AppQuery.Query;
 
 public class TaskCategoryQuery : ITaskCategoryQuery
 {
-    private readonly ToDoContext _todoContext;
+    private readonly ToDoDbContext _todoContext;
 
-    public TaskCategoryQuery(ToDoContext todoContext)
+    public TaskCategoryQuery(ToDoDbContext todoContext)
     {
         _todoContext = todoContext;
     }

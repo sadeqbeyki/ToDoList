@@ -2,11 +2,11 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace ToDo.Infrastructure.EFCore.Persistence;
+namespace ToDo.Infrastructure.EFCore.Persistance;
 
-public class ApplicationDbContext : IdentityDbContext<IdentityUser>
+public class IdentityDbContext : IdentityDbContext<ApplicationUser>
 {
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+    public IdentityDbContext(DbContextOptions<IdentityDbContext> options)
         : base(options)
     {
     }
@@ -18,4 +18,10 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser>
         // For example, you can rename the ASP.NET Identity table names and more.
         // Add your customizations after calling base.OnModelCreating(builder);
     }
+}
+
+public class ApplicationUser : IdentityUser
+{
+    public string FullName { get; set; }
+
 }

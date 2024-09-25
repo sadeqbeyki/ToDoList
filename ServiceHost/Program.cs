@@ -4,43 +4,27 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using ToDo.Domain.Entities.UserAgg;
+using System.Configuration;
+using System;
 using ToDo.Infrastructure.Configuration;
-using ToDo.Infrastructure.EFCore.Persistence;
+using ToDo.Infrastructure.EFCore.Persistance;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var connectionString = builder.Configuration.GetConnectionString("ToDoListDB");
+var connectionString = builder.Configuration.GetConnectionString("ToDoListDbConnection");
 
 ToDoBootstrapper.Configure(builder.Services, connectionString);
 
 builder.Services.AddRazorPages();
 
 //identity
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddDbContext<IdentityDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("IdentityDbConnection")));
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
-
-builder.Services.AddIdentityCore<ApplicationUser>(options =>
-{
-    options.SignIn.RequireConfirmedAccount = false;
-})
-.AddRoles<IdentityRole>() // برای سطح‌بندی نقش‌ها
-.AddEntityFrameworkStores<ApplicationDbContext>();
-
-builder.Services.ConfigureApplicationCookie(options =>
-{
-    options.LoginPath = "/Account/Login";
-    options.AccessDeniedPath = "/Account/AccessDenied";
-});
-
-// MyApp.Web/Program.cs
-//builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
-//    .AddEntityFrameworkStores<ApplicationDbContext>()
-//    .AddDefaultTokenProviders();
-
-//identity
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+    .AddEntityFrameworkStores<IdentityDbContext>()
+    .AddDefaultTokenProviders();
+//end identity
 
 var app = builder.Build();
 

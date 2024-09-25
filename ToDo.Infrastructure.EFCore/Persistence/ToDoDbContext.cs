@@ -2,13 +2,13 @@
 using ToDo.Infrastructure.EFCore.Mappings;
 using ToDo.Domain.Entities;
 
-namespace ToDo.Infrastructure.EFCore;
+namespace ToDo.Infrastructure.EFCore.Persistance;
 
-public class ToDoContext : DbContext
+public class ToDoDbContext : DbContext
 {
     public DbSet<TaskList> TaskLists { get; set; }
     public DbSet<TaskItem> TaskItems { get; set; }
-    public ToDoContext(DbContextOptions<ToDoContext> options) : base(options)
+    public ToDoDbContext(DbContextOptions<ToDoDbContext> options) : base(options)
     {
 
     }
