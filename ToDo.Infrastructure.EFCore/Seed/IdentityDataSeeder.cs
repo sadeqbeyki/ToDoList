@@ -29,7 +29,7 @@ public static class IdentityDataSeeder
 
         // Create default admin user
         string adminEmail = "admin@example.com";
-        string password = "123456";
+        string password = "Ab123456!";
 
         var adminUser = await userManager.FindByEmailAsync(adminEmail);
         if (adminUser == null)

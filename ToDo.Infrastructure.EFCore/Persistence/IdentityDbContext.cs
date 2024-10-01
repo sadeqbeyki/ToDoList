@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ToDo.Infrastructure.EFCore.Persistance;
 
-public class IdentityDbContext : IdentityDbContext<ApplicationUser>
+public class IdentityDbContext : IdentityDbContext<ApplicationUser, IdentityRole, string>
 {
     public IdentityDbContext(DbContextOptions<IdentityDbContext> options)
         : base(options)
