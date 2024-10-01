@@ -1,4 +1,5 @@
 ﻿using AppFramework.Domain;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -10,6 +11,7 @@ using ToDo.Application.Interfaces;
 namespace ServiceHost.Areas.Adminpanel.Pages.ToDo.Tasks;
 
 [Area("Adminpanel")]
+[Authorize(Roles = "User,Admin")]
 public class IndexModel : PageModel
 {
     public TaskItemViewModel TaskDetails { get; set; } = new();

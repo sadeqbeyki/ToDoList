@@ -15,7 +15,17 @@
     </div>
 </div>
 
-
+@if (User.Identity.IsAuthenticated)
+{
+    <span>Hello @User.Identity.Name</span>
+    <form method="post" asp-area="Identity" asp-page="/Account/Logout">
+        <button type="submit">Logout</button>
+    </form>
+}
+else
+{
+    <a asp-area="Identity" asp-page="/Account/Login">Login</a>
+}
 
 
 

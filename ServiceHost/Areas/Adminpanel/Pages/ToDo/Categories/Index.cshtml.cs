@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System;
@@ -7,8 +8,8 @@ using ToDo.Application.DTOs.TaskLists;
 using ToDo.Application.Interfaces;
 
 namespace ServiceHost.Areas.Adminpanel.Pages.ToDo.Categories;
+[Authorize]
 [Area("Adminpanel")]
-
 public class IndexModel : PageModel
 {
     public TaskListSearchModel SearchModel;
