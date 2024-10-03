@@ -4,13 +4,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System.Configuration;
 using System;
 using ToDo.Infrastructure.Configuration;
 using ToDo.Infrastructure.EFCore.Persistance;
 using ToDo.Infrastructure.EFCore.Seed;
-using ToDo.Application.Interfaces;
-using ToDo.Application.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,6 +24,12 @@ builder.Services.AddDbContext<IdentityDbContext>(options =>
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<IdentityDbContext>()
     .AddDefaultTokenProviders();
+
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Identity/Account/Login";
+    options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+});
 //end identity
 
 var app = builder.Build();
