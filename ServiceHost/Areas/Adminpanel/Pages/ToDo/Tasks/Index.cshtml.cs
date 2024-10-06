@@ -11,7 +11,7 @@ using ToDo.Application.Interfaces;
 namespace ServiceHost.Areas.Adminpanel.Pages.ToDo.Tasks;
 
 [Area("Adminpanel")]
-[Authorize(Roles = "User,Admin")]
+[Authorize(Roles = "Manager,Member")]
 public class IndexModel : PageModel
 {
     public TaskItemViewModel TaskDetails { get; set; } = new();
