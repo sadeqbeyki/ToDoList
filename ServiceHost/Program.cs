@@ -5,8 +5,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
+using ToDo.Domain.Entities.Identity;
 using ToDo.Infrastructure.Configuration;
-using ToDo.Infrastructure.EFCore.Persistance;
+using ToDo.Infrastructure.EFCore.Persistence;
 using ToDo.Infrastructure.EFCore.Seed;
 
 var builder = WebApplication.CreateBuilder(args);

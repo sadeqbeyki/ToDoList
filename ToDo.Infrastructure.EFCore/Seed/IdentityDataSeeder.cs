@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ToDo.Infrastructure.EFCore.Persistance;
+using ToDo.Domain.Entities.Identity;
 
 namespace ToDo.Infrastructure.EFCore.Seed;
 

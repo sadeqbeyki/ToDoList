@@ -1,23 +1,25 @@
 ﻿using AppFramework.Application;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System;
-using ToDo.Domain.Interfaces;
-using ToDo.Domain.Entities;
-using ToDo.Application.DTOs.TaskItems;
-using System.Linq;
-using ToDo.Application.Interfaces;
-using AutoMapper;
-using ToDo.Domain.Models;
 using AppFramework.Domain;
-using ToDo.Application.DTOs.TaskLists;
+using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using ToDo.Application.DTOs.TaskItems;
+using ToDo.Application.Interfaces;
+using ToDo.Domain.Entities;
+using ToDo.Domain.Interfaces;
+using ToDo.Domain.Models;
 
 namespace ToDo.Application.Services;
-public class TaskItemService(ITaskRepository taskRepository, IMapper mapper) : ITaskService
+public class TaskItemService(ITaskRepository taskRepository, IMapper mapper, IHttpContextAccessor httpContextAccessor) : ITaskService
 {
     private readonly ITaskRepository _taskRepository = taskRepository;
     private readonly IMapper _mapper = mapper;
+    private readonly IHttpContextAccessor _httpContextAccessor;
     public async Task<TaskItemViewModel?> GetByIdAsync(long id)
     {
         var task = await _taskRepository.GetTaskItemWithTaskList(id);
@@ -54,7 +56,8 @@ public class TaskItemService(ITaskRepository taskRepository, IMapper mapper) : I
         if (await _taskRepository.Exists(x => x.Title == command.Title))
             return operation.Failed(ApplicationMessages.DuplicatedRecord);
 
-        var task = new TaskItem(command.Title, command.Description, command.TaskListId);
+        var userId = _httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+        var task = new TaskItem(command.Title, command.Description, command.TaskListId, userId);
         await _taskRepository.Create(task);
         await _taskRepository.SaveChangesAsync();
         return operation.Succeeded();
@@ -128,7 +131,8 @@ public class TaskItemService(ITaskRepository taskRepository, IMapper mapper) : I
 
     public async Task<PaginatedList<TaskItemViewModel>> SearchPaginated(TaskItemSearchModel searchModel, int pageIndex, int pageSize)
     {
-        var query = _taskRepository.GetQueryable(); 
+        var query = _taskRepository.GetQueryable();
+        var userId = _httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
 
         if (!string.IsNullOrWhiteSpace(searchModel.Title))
             query = query.Where(x => x.Title.Contains(searchModel.Title));
@@ -141,7 +145,7 @@ public class TaskItemService(ITaskRepository taskRepository, IMapper mapper) : I
 
         var totalCount = await query.CountAsync();
 
-        var tasks = await query
+        var tasks = await query.Where(t => t.UserId == userId)
             .OrderByDescending(x => x.Id)
             .Skip((pageIndex - 1) * pageSize)
             .Take(pageSize)

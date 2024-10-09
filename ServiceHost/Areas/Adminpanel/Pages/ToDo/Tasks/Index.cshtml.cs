@@ -20,8 +20,6 @@ public class IndexModel : PageModel
     public TaskItemSearchModel SearchModel { get; set; } = new();
     public PaginatedList<TaskItemViewModel> TaskItems { get; set; } = [];
 
-
-
     private readonly ITaskService _taskApplication;
     private readonly ITaskListService _taskCategoryApplication;
 

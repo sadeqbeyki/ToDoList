@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using ToDo.Infrastructure.EFCore.Persistance;
+using ToDo.Domain.Entities.Identity;
 
 namespace ServiceHost.Areas.Identity.Pages.Account
 {
