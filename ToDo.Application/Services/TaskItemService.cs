@@ -22,7 +22,9 @@ public class TaskItemService(ITaskRepository taskRepository, IMapper mapper, IHt
     private readonly IHttpContextAccessor _httpContextAccessor;
     public async Task<TaskItemViewModel?> GetByIdAsync(long id)
     {
-        var task = await _taskRepository.GetTaskItemWithTaskList(id);
+        var userId = _httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        var task = await _taskRepository.GetTaskItemWithListName(id);
         if (task == null) return null;
 
         return new TaskItemViewModel
@@ -64,8 +66,9 @@ public class TaskItemService(ITaskRepository taskRepository, IMapper mapper, IHt
     }
     public async Task<OperationResult> Edit(EditTaskDto command)
     {
+
         var operation = new OperationResult();
-        var task = await _taskRepository.GetTaskItemWithTaskList(command.Id);
+        var task = await _taskRepository.GetTaskItemWithListName(command.Id);
         if (task == null)
             return operation.Failed(ApplicationMessages.RecordNotFound);
 
