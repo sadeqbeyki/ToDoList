@@ -17,6 +17,7 @@ var connectionString = builder.Configuration.GetConnectionString("ToDoListDbConn
 ToDoBootstrapper.Configure(builder.Services, connectionString);
 
 builder.Services.AddRazorPages();
+builder.Services.AddHttpContextAccessor();
 
 //identity
 builder.Services.AddDbContext<IdentityDbContext>(options =>

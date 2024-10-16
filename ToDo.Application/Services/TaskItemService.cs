@@ -19,7 +19,7 @@ public class TaskItemService(ITaskRepository taskRepository, IMapper mapper, IHt
 {
     private readonly ITaskRepository _taskRepository = taskRepository;
     private readonly IMapper _mapper = mapper;
-    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
     public async Task<TaskItemViewModel?> GetByIdAsync(long id)
     {
         var userId = _httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -136,6 +136,10 @@ public class TaskItemService(ITaskRepository taskRepository, IMapper mapper, IHt
     {
         var query = _taskRepository.GetQueryable();
         var userId = _httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        if (string.IsNullOrWhiteSpace(userId))
+            throw new Exception("❌ userId is null. User is probably not authenticated.");
+
 
         if (!string.IsNullOrWhiteSpace(searchModel.Title))
             query = query.Where(x => x.Title.Contains(searchModel.Title));
