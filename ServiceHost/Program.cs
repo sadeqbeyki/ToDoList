@@ -5,6 +5,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
+using ToDo.Application.Interfaces;
+using ToDo.Application.Services;
 using ToDo.Domain.Entities.Identity;
 using ToDo.Infrastructure.Configuration;
 using ToDo.Infrastructure.EFCore.Persistence;
@@ -17,7 +19,6 @@ var connectionString = builder.Configuration.GetConnectionString("ToDoListDbConn
 ToDoBootstrapper.Configure(builder.Services, connectionString);
 
 builder.Services.AddRazorPages();
-builder.Services.AddHttpContextAccessor();
 
 //identity
 builder.Services.AddDbContext<IdentityDbContext>(options =>
@@ -32,6 +33,10 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.LoginPath = "/Identity/Account/Login";
     options.AccessDeniedPath = "/Identity/Account/AccessDenied";
 });
+
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
+
 //end identity
 
 var app = builder.Build();

@@ -15,11 +15,15 @@ using ToDo.Domain.Interfaces;
 using ToDo.Domain.Models;
 
 namespace ToDo.Application.Services;
-public class TaskItemService(ITaskRepository taskRepository, IMapper mapper, IHttpContextAccessor httpContextAccessor) : ITaskService
+public class TaskItemService(ITaskRepository taskRepository,
+    IMapper mapper,
+    IHttpContextAccessor httpContextAccessor,
+    ICurrentUserService currentUserService) : ITaskService
 {
     private readonly ITaskRepository _taskRepository = taskRepository;
     private readonly IMapper _mapper = mapper;
     private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
+    private readonly ICurrentUserService _currentUserService = currentUserService;
     public async Task<TaskItemViewModel?> GetByIdAsync(long id)
     {
         var userId = _httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -55,11 +59,14 @@ public class TaskItemService(ITaskRepository taskRepository, IMapper mapper, IHt
     public async Task<OperationResult> Create(CreateTaskDto command)
     {
         var operation = new OperationResult();
+
+        if (!_currentUserService.IsAuthenticated)
+            return operation.Failed("User is probably not authenticated");
+
         if (await _taskRepository.Exists(x => x.Title == command.Title))
             return operation.Failed(ApplicationMessages.DuplicatedRecord);
 
-        var userId = _httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
-        var task = new TaskItem(command.Title, command.Description, command.TaskListId, userId);
+        var task = new TaskItem(command.Title, command.Description, command.TaskListId, _currentUserService.UserId!);
         await _taskRepository.Create(task);
         await _taskRepository.SaveChangesAsync();
         return operation.Succeeded();
