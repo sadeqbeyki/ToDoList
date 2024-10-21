@@ -14,8 +14,8 @@ public class TaskItem : EntityBase
 
     public string UserId { get; set; } = string.Empty;
 
-    [ForeignKey("UserId")]
-    public ApplicationUser? User { get; set; }
+    //[ForeignKey("UserId")]
+    //public ApplicationUser? User { get; set; }
 
     public TaskItem() { }
 

@@ -2,7 +2,7 @@
 using ToDo.Infrastructure.EFCore.Mappings;
 using ToDo.Domain.Entities;
 
-namespace ToDo.Infrastructure.EFCore.Persistance;
+namespace ToDo.Infrastructure.EFCore.Persistence;
 
 public class ToDoDbContext : DbContext
 {

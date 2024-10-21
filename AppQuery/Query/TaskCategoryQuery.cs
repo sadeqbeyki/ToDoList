@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using ToDo.Domain.Entities;
-using ToDo.Infrastructure.EFCore.Persistance;
+using ToDo.Infrastructure.EFCore.Persistence;
 
 namespace AppQuery.Query;
 

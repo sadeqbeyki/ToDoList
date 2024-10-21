@@ -114,7 +114,7 @@ public class IndexModel : PageModel
 
 
 
-    [ValidateAntiForgeryToken]
+    //[ValidateAntiForgeryToken]
     public async Task<IActionResult> OnPostToggleDoneAsync([FromForm] long id, [FromForm] bool isDone)
     {
         await _taskApplication.ToggleIsDone(id, isDone);

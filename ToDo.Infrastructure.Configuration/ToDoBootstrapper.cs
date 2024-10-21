@@ -5,7 +5,7 @@ using ToDo.Domain.Interfaces;
 using ToDo.Application.Services;
 using ToDo.Application.Interfaces;
 using ToDo.Application.Mapper;
-using ToDo.Infrastructure.EFCore.Persistance;
+using ToDo.Infrastructure.EFCore.Persistence;
 
 namespace ToDo.Infrastructure.Configuration;
 

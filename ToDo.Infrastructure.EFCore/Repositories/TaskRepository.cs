@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using ToDo.Domain.Entities;
 using ToDo.Domain.Interfaces;
 using ToDo.Domain.Models;
-using ToDo.Infrastructure.EFCore.Persistance;
+using ToDo.Infrastructure.EFCore.Persistence;
 
 namespace ToDo.Infrastructure.EFCore.Repositories;
 

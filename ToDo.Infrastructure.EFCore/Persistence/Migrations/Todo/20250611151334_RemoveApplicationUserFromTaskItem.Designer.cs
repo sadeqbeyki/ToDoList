@@ -5,14 +5,15 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using ToDo.Infrastructure.EFCore.Persistence;
 
 #nullable disable
 
 namespace ToDo.Infrastructure.EFCore.Persistence.Migrations.Todo
 {
     [DbContext(typeof(ToDoDbContext))]
-    [Migration("20250609142519_AddUserIdToTask")]
-    partial class AddUserIdToTask
+    [Migration("20250611151334_RemoveApplicationUserFromTaskItem")]
+    partial class RemoveApplicationUserFromTaskItem
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
