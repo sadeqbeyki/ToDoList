@@ -119,10 +119,13 @@ public class RegisterModel : PageModel
             await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
             var result = await _userManager.CreateAsync(user, Input.Password);
 
+            //add to role
+            var newUser = await _userManager.FindByEmailAsync(user.Email);
+            await _userManager.AddToRoleAsync(newUser, "Member");
+
             if (result.Succeeded)
             {
                 _logger.LogInformation("User created a new account with password.");
-
                 var userId = await _userManager.GetUserIdAsync(user);
                 var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                 code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
