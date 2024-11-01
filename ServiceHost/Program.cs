@@ -15,7 +15,7 @@ using ToDo.Infrastructure.EFCore.Persistence;
 using ToDo.Infrastructure.EFCore.Seed;
 
 var builder = WebApplication.CreateBuilder(args);
-
+//builder.Host.UseEnvironment("Production");
 var connectionString = builder.Configuration.GetConnectionString("ToDoListDbConnection");
 
 ToDoBootstrapper.Configure(builder.Services, connectionString);
