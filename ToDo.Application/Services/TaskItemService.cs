@@ -73,7 +73,6 @@ public class TaskItemService(ITaskRepository taskRepository,
     }
     public async Task<OperationResult> Edit(EditTaskDto command)
     {
-
         var operation = new OperationResult();
         var task = await _taskRepository.GetTaskItemWithListName(command.Id);
         if (task == null)
@@ -123,7 +122,7 @@ public class TaskItemService(ITaskRepository taskRepository,
         var pagedTasks = await _taskRepository.GetAllPaginatedAsync(pageIndex, pageSize);
 
         return new PaginatedList<TaskItemViewModel>(
-            pagedTasks.Select(t => new TaskItemViewModel
+            [.. pagedTasks.Select(t => new TaskItemViewModel
             {
                 Id = t.Id,
                 Title = t.Title,
@@ -132,7 +131,7 @@ public class TaskItemService(ITaskRepository taskRepository,
                 TaskListTitle = t.TaskList.Name,
                 TaskListId = t.TaskListId,
                 CreationDate = t.CreationDate.ToFarsi()
-            }).ToList(),
+            })],
             pagedTasks.TotalItems,
             pagedTasks.PageIndex,
             pageSize
